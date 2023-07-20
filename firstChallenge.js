@@ -24,11 +24,7 @@ class ProductManager {
     }
 
     getProducts() {
-        if (this.products.length === 0) {
-            console.log('No hay productos cargados:', this.products)
-        } else {
-            console.log("Productos cargados:", this.products)
-        }
+        this.products.length === 0 ? console.log('No hay productos cargados:', this.products) : console.log("Productos cargados:", this.products)
     }
 
     getProductById(id) {
@@ -60,6 +56,9 @@ manager.getProducts()
 //Agrego otro producto con todos los datos cargados correctamente
 //Consola arroja: Producto cargado correctamente con el id: 2
 manager.addProduct('Sprite', 'Gaseosa', 100, 'https:cocacola/sprite.jpg', "code2", 10)
+
+//Llamo a getProducts nuevamente para ver los dos productos agregados
+//Consola arroja: Productos cargados: (2) [{...}, {...}]
 manager.getProducts()
 
 //Agrego un producto con todos los datos cargados correctamente pero que repite codigo con el producto cargado anteriormente
