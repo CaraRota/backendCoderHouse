@@ -32,13 +32,11 @@ class ProductManager {
     }
 
     getProductById(id) {
-        if (this.products.length === 0) {
-            console.log('No hay productos cargados')
-        } else if (this.products.find(product => product.id != id)) {
-            console.log('Producto no encontrado')
-        }
-        else {
-            console.log(this.products.find(product => product.id === id))
+        const product = this.products.find(product => product.id === id);
+        if (!product) {
+            console.log('Producto no encontrado');
+        } else {
+            console.log(product);
         }
     }
 }
@@ -63,6 +61,11 @@ manager.addProduct('Coca Cola', 'Gaseosa', 100, 'https:cocacola/coca.jpg', 25, 1
 //Consola arroja: Productos cargados: (1) [{...}]
 manager.getProducts()
 
+//Agrego otro producto con todos los datos cargados correctamente
+//Consola arroja: Producto cargado correctamente con el id: 2
+manager.addProduct('Sprite', 'Gaseosa', 100, 'https:cocacola/sprite.jpg', "code2", 10)
+manager.getProducts()
+
 //Agrego un producto con todos los datos cargados correctamente pero que repite codigo con el producto cargado anteriormente
 //Consola arroja: Ya existe un producto cargado con el codigo 25
 manager.addProduct('Pepsi', 'Gaseosa', 100, 'https:cocacola/pepsi.jpg', 25, 10)
@@ -73,7 +76,7 @@ manager.addProduct('Fanta', 100, 'https:cocacola/fanta.jpg', 5, 10)
 
 //Llamo al metodo getProductById con el id de un producto que existe
 //Consola arroja el resultado con el producto que coincide con el id
-manager.getProductById(1)
+manager.getProductById(2)
 
 //Llamo al metodo getProductById con el id de un producto que no existe
 //Consola arroja: Producto no encontrado
