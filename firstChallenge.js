@@ -33,11 +33,7 @@ class ProductManager {
 
     getProductById(id) {
         const product = this.products.find(product => product.id === id)
-        if (!product) {
-            console.log('Producto no encontrado')
-        } else {
-            console.log(product)
-        }
+        product ? console.log(product) : console.log('Producto no encontrado')
     }
 }
 
