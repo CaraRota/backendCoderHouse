@@ -1,8 +1,8 @@
 class ProductManager {
-
     constructor() {
         this.products = []
     }
+
     addProduct(title, description, price, thumbnail, code, stock) {
         if (this.products.find(product => product.code === code)) {
             console.log('Ya existe un producto cargado con el codigo', code)
@@ -78,4 +78,3 @@ manager.getProductById(1)
 //Llamo al metodo getProductById con el id de un producto que no existe
 //Consola arroja: Producto no encontrado
 manager.getProductById(25)
-
