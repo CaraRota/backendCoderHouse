@@ -32,11 +32,11 @@ class ProductManager {
     }
 
     getProductById(id) {
-        const product = this.products.find(product => product.id === id);
+        const product = this.products.find(product => product.id === id)
         if (!product) {
-            console.log('Producto no encontrado');
+            console.log('Producto no encontrado')
         } else {
-            console.log(product);
+            console.log(product)
         }
     }
 }
