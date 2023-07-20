@@ -17,7 +17,7 @@ class ProductManager {
                 thumbnail: thumbnail,
                 code: code,
                 stock: stock
-            });
+            })
             console.log("Producto cargado correctamente con el id:", this.products.length)
         }
     }
