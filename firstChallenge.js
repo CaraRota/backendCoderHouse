@@ -5,9 +5,9 @@ class ProductManager {
 
     addProduct(title, description, price, thumbnail, code, stock) {
         if (this.products.find(product => product.code === code)) {
-            console.log('Ya existe un producto cargado con el codigo', code);
+            console.log('Ya existe un producto cargado con el codigo', code)
         } else if (!title || !description || !price || !thumbnail || !stock) {
-            console.log("Asegurate de haber cargado todos los datos");
+            console.log("Asegurate de haber cargado todos los datos")
         } else {
             this.products.push({
                 id: this.products.length + 1,
@@ -18,7 +18,7 @@ class ProductManager {
                 code: code,
                 stock: stock
             });
-            console.log("Producto cargado correctamente con el id:", this.products.length);
+            console.log("Producto cargado correctamente con el id:", this.products.length)
         }
     }
 
