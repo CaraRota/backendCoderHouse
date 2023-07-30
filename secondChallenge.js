@@ -122,21 +122,19 @@ const testingFn = async () => {
     await manager.getProductById(2)
     await manager.getProductById(55) //Consola arroja: Producto no encontrado
 
-
-    // await manager.deleteProduct(2)
-    // await manager.getProducts()
-    // await manager.deleteProduct(3)
-    //Elimino el producto con id 1
+    //Elimino el producto con id 2
     await manager.deleteProduct(2)
 
     //Actualizo un producto que no existe
     await manager.updateProduct(2, { title: 'Coca Cola', description: 'Gaseosa', price: 120000, thumbnail: 'https:cocacola/coca.jpg', code: 25, stock: 10 })
 
-    //Actualizo el producto que si existe (cambio el precio a 120000)
+    //Actualizo un producto que si existe (cambio el precio a 120000)
     await manager.updateProduct(1, { title: 'Coca Cola', description: 'Gaseosa', price: 120000, thumbnail: 'https:cocacola/coca.jpg', code: 25, stock: 10 })
 
     //Vuelvo a llamar a los productos
     await manager.getProducts()
+
+    //Agrego producto nuevo
     await manager.addProduct("7up", "Gaseosa", 100, "https:cocacola/7up.jpg", "code7", 10)
 }
 
