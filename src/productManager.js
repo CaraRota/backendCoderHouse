@@ -1,7 +1,7 @@
 import { promises as fs } from "fs"
 export default class ProductManager {
     constructor() {
-        this.path = "./products.txt"
+        this.path = "./src/products.json"
         this.IDgenerator = this.incrementalID()
         this.lastID = 0
     }
@@ -39,14 +39,13 @@ export default class ProductManager {
 
     async getProducts() {
         const products = JSON.parse(await fs.readFile(this.path, "utf-8"))
-        products.length === 0 ? console.log('No hay productos cargados:', products) : console.log("Productos cargados:", products)
+        return products
     }
 
     async getProductById(id) {
         const products = JSON.parse(await fs.readFile(this.path, "utf-8"))
-
         const product = products.find(prod => prod.id === id)
-        product ? console.log(product) : console.log('Producto no encontrado')
+        return product
     }
 
     async updateProduct(id, { title, description, price, thumbnail, code, stock }) {
