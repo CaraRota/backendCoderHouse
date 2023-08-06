@@ -2,18 +2,10 @@ import express from 'express';
 import ProductManager from './productManager.js';
 
 const app = express();
-const PORT = 4000;
+const PORT = 8080;
 const productManager = new ProductManager();
 
 app.use(express.urlencoded({ extended: true }));
-
-// const createProductsFn = async () => {
-//     await productManager.addProduct("Escuadra", "Escuadra de 30cm", 123.45, "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png", "ESC", 123);
-//     await productManager.addProduct("Calculadora", "Calculadora cientifica", 234.56, "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png", "CAL", 234);
-//     await productManager.addProduct("Globo Terraqueo", "Globo terraqueo", 345.67, "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png", "GLO", 345);
-//     await productManager.addProduct("Regla", "Regla de 20cm", 456.78, "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png", "REG", 456);
-// }
-// createProductsFn();
 
 app.get('/', async (req, res) => {
     res.send('Home Page');
