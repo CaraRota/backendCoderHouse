@@ -1,7 +1,8 @@
 import { promises as fs } from "fs"
 export default class ProductManager {
-    constructor() {
-        this.path = "./src/products.json"
+    constructor(path) {
+        this.products = []
+        this.path = path
         this.IDgenerator = this.incrementalID()
         this.lastID = 0
     }
@@ -34,6 +35,7 @@ export default class ProductManager {
             })
             await fs.writeFile(this.path, JSON.stringify(products))
             console.log("Producto cargado correctamente con el id:", this.lastID)
+            return true
         }
     }
 
@@ -70,6 +72,7 @@ export default class ProductManager {
             }
             await fs.writeFile(this.path, JSON.stringify(products))
             console.log("Producto actualizado correctamente con el id:", id)
+            return true
         }
     }
     async deleteProduct(id) {
@@ -80,6 +83,7 @@ export default class ProductManager {
             const newProducts = products.filter(product => product.id != id)
             await fs.writeFile(this.path, JSON.stringify(newProducts))
             console.log("Producto eliminado correctamente con el id:", id)
+            return true
         }
         else {
             console.log("No existe un producto con la ID solicitada.")
