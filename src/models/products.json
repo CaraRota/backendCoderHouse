@@ -1,12 +1,12 @@
 [
     {
         "id": 1,
-        "title": "Lapiz",
-        "description": "Lapiz de grafito",
-        "price": 123,
+        "title": "Goma",
+        "description": "Goma de plastico",
+        "price": 23,
         "thumbnail": "sin imagen",
-        "code": "LAP",
-        "stock": 123
+        "code": "GOM",
+        "stock": 23
     },
     {
         "id": 2,

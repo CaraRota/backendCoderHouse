@@ -2,7 +2,7 @@ import { Router } from "express";
 import ProductManager from "../controllers/productManager.js"
 
 const routerProd = Router();
-const productManager = new ProductManager("./src/products.json");
+const productManager = new ProductManager("./src/models/products.json");
 
 //READ ALL
 routerProd.get('/', async (req, res) => {
@@ -21,8 +21,8 @@ routerProd.get('/:id', async (req, res) => {
 
 //CREATE
 routerProd.post('/', async (req, res) => {
-    const { body } = req;
-    const confirmacion = await productManager.addProduct(body);
+    const { title, description, price, thumbnail, code, stock } = req.body;
+    const confirmacion = await productManager.addProduct(title, description, price, thumbnail, code, stock);
     confirmacion ? res.status(200).send("Producto creado correctamente") : res.status(400).send("Producto no creado. El producto ya existe o no has cargado todos los datos.")
 });
 
