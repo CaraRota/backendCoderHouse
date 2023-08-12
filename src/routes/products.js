@@ -13,30 +13,30 @@ routerProd.get('/', async (req, res) => {
 });
 
 //READ BY ID
-routerProd.get('/:id', async (req, res) => {
+routerProd.get('/:pid', async (req, res) => {
     const { params } = req;
-    const product = await productManager.getProductById(parseInt(params.id));
+    const product = await productManager.getProductById(parseInt(params.pid));
     product ? res.status(200).send(product) : res.status(404).send("Producto no encontrado");
 });
 
 //CREATE
 routerProd.post('/', async (req, res) => {
-    const { title, description, price, thumbnail, code, stock } = req.body;
-    const confirmacion = await productManager.addProduct(title, description, price, thumbnail, code, stock);
+    const { title, description, price, thumbnail, code, stock, status, category } = req.body;
+    const confirmacion = await productManager.addProduct(title, description, price, thumbnail, code, stock, status, category);
     confirmacion ? res.status(200).send("Producto creado correctamente") : res.status(400).send("Producto no creado. El producto ya existe o no has cargado todos los datos.")
 });
 
 //UPDATE
-routerProd.put('/:id', async (req, res) => {
+routerProd.put('/:pid', async (req, res) => {
     const { body, params } = req;
-    const confirmacion = await productManager.updateProduct(parseInt(params.id), body);
+    const confirmacion = await productManager.updateProduct(parseInt(params.pid), body);
     confirmacion ? res.status(200).send("Producto modificado correctamente") : res.status(404).send("Producto no encontrado o no has cargado todos los datos");
 });
 
 //DELETE
-routerProd.delete('/:id', async (req, res) => {
+routerProd.delete('/:pid', async (req, res) => {
     const { params } = req;
-    const confirmacion = await productManager.deleteProduct(parseInt(params.id));
+    const confirmacion = await productManager.deleteProduct(parseInt(params.pid));
     confirmacion ? res.status(200).send("Producto eliminado correctamente") : res.status(404).send("Producto no encontrado");
 });
 

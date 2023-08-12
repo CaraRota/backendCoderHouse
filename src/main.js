@@ -1,5 +1,6 @@
 import express from 'express';
 import routerProd from './routes/products.js';
+import routerCart from './routes/carts.js';
 import routerHome from './routes/homepage.js';
 import { __dirname } from "./path.js"
 import path from 'path';
@@ -13,7 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
-app.use("/products", routerProd)
+app.use("/api/products", routerProd)
+app.use("/api/carts", routerCart)
 app.use("/", routerHome) //Este debe ir ultimo porque maneja el Error 404
 
 //CREATE SERVER
