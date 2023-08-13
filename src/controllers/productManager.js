@@ -1,4 +1,4 @@
-import { promises as fs } from "fs"
+import { promises as fs, stat } from "fs"
 export default class ProductManager {
     constructor(path) {
         this.products = []
@@ -16,9 +16,15 @@ export default class ProductManager {
         }
     }
 
-    async addProduct(title, description, price, thumbnail, code, stock, category) {
+    async addProduct(title, description, price, thumbnail, code, stock, status, category) {
         const products = JSON.parse(await fs.readFile(this.path, 'utf-8'))
-        const status = true // Preguntar por esta solucion al true por defecto
+
+        if(typeof status !== "boolean") {
+            console.log("El status debe ser un booleano")
+            return false
+        } else {
+            status = status
+        }        
 
         if (products.find(product => product.code == code)) {
             console.log('Ya existe un producto cargado con el codigo', code)
@@ -30,7 +36,7 @@ export default class ProductManager {
                 title: title,
                 description: description,
                 price: price,
-                thumbnail: thumbnail,
+                thumbnail: [thumbnail],
                 code: code,
                 stock: stock,
                 status: status,

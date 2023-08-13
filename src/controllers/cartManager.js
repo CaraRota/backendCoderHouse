@@ -5,24 +5,18 @@ export default class CartManager {
         this.carts = []
         this.cartsPath = cartsPath
         this.productsPath = productsPath
-        this.IDgenerator = this.incrementalID()
-        this.lastID = 0
-    }
-
-    incrementalID = () => {
-        let id = 0
-        return () => {
-            id++
-            this.lastID = id
-            return id
-        }
     }
 
     async createCart() {
         const carts = JSON.parse(await fs.readFile(this.cartsPath, 'utf-8'))
+        let newID = 1;
+
+        if (carts.length > 0) {
+            newID = carts[carts.length - 1].id + 1
+        }
 
         carts.push({
-            id: this.IDgenerator(),
+            id: newID,
             products: []
         })
         await fs.writeFile(this.cartsPath, JSON.stringify(carts))
@@ -36,20 +30,20 @@ export default class CartManager {
     }
 
     async addToCart(cartID, productID) {
-        const carts = JSON.parse(await fs.readFile(this.cartsPath, 'utf-8'))
-        const products = JSON.parse(await fs.readFile(this.productsPath, 'utf-8'))
+        const carts = JSON.parse(await fs.readFile(this.cartsPath, 'utf-8'));
+        const products = JSON.parse(await fs.readFile(this.productsPath, 'utf-8'));
 
-        const cart = carts.find(cart => cart.id === parseInt(cartID))
-        const product = products.find(product => product.id === parseInt(productID))
+        const cart = carts.find(cart => cart.id === parseInt(cartID));
+        const producto = products.find(product => product.id === parseInt(productID));
 
-        if (cart && product) {
-            const existingProduct = cart.products.find(prod => prod.id === product.id);
+        if (cart && producto) {
+            const existingProduct = cart.products.find(prod => prod.product === producto.id);
 
             if (existingProduct) {
                 existingProduct.quantity++;
             } else {
                 cart.products.push({
-                    id: product.id,
+                    product: producto.id,
                     quantity: 1
                 });
             }

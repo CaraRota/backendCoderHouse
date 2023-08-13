@@ -82,11 +82,11 @@
     },
     {
         "id": 10,
-        "title": "Compas",
-        "description": "Compas de plastico",
+        "title": "Lapiz",
+        "description": "Lapiz de grafito",
         "price": 12,
         "thumbnail": "sin imagen",
-        "code": "COM",
+        "code": "LAP",
         "stock": 12
     }
 ]
