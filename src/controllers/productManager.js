@@ -5,7 +5,7 @@ export default class ProductManager {
         this.path = path
     }
 
-    async addProduct(title, description, price, thumbnail, code, stock, status, category) {
+    async addProduct({ title, description, price, thumbnail, code, stock, status, category }) {
         try {
             const products = JSON.parse(await fs.readFile(this.path, 'utf-8'))
 
