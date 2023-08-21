@@ -40,6 +40,7 @@ io.on('connection', socket => {
         console.log(product);
         await prodManager.addProduct(product);
         socket.emit('mensajeProductoCreado', "Producto creado correctamente");
+        socket.emit('productos', await prodManager.getProducts());
     });
 });
 
