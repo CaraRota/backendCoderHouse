@@ -1,4 +1,4 @@
-import { promises as fs, stat } from "fs"
+import { promises as fs } from "fs"
 export default class ProductManager {
     constructor(path) {
         this.products = []
