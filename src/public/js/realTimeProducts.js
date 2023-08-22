@@ -46,7 +46,6 @@ socket.on('productos', (products) => {
 });
 
 const getProds = document.getElementById('products')
-
 getProds.addEventListener('click', (e) => {
     if (e.target.classList.contains('delete-btn')) {
         const id = e.target.dataset.id;
