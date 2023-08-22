@@ -38,9 +38,13 @@ io.on('connection', socket => {
 
     socket.on('nuevoProducto', async (product) => {
         console.log(product);
-        await prodManager.addProduct(product);
-        socket.emit('mensajeProductoCreado', "Producto creado correctamente");
-        socket.emit('productos', await prodManager.getProducts());
+        const addProd = await prodManager.addProduct(product);
+        if (addProd) {
+            socket.emit('mensajeProductoCreado', "Producto creado correctamente");
+            socket.emit('productos', await prodManager.getProducts());
+        } else {
+            socket.emit('mensajeProductoCreado', "Error al crear el producto");
+        }
     });
 });
 

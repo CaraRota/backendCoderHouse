@@ -11,9 +11,19 @@ form.addEventListener('submit', (e) => {
     console.log(product)
     socket.emit('nuevoProducto', product);
     socket.on('mensajeProductoCreado', (mensaje) => {
-        // Swal.fire(
-        //     mensaje
-        // )
+        if (mensaje === "Producto creado correctamente") {
+            Swal.fire({
+                icon: 'success',
+                title: mensaje,
+                showConfirmButton: true,
+            })
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: mensaje,
+                showConfirmButton: true,
+            })
+        }
         console.log(mensaje);
     });
     e.target.reset();

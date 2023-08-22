@@ -14,11 +14,12 @@ export default class ProductManager {
             } else {
                 status = status
             }
-
             if (products.find(product => product.code == code)) {
                 console.log('Ya existe un producto cargado con el codigo', code)
+                return false
             } else if (!title || !description || !price || !stock || !category) {
                 console.log("Asegurate de haber cargado todos los datos")
+                return false
             } else {
                 let newID = 1;
 
@@ -37,7 +38,7 @@ export default class ProductManager {
                     category: category
                 })
                 await fs.writeFile(this.path, JSON.stringify(products))
-                console.log("Producto cargado correctamente con el id:", this.lastID)
+                console.log("Producto cargado correctamente con el id:", newID)
                 return true
             }
         } catch (error) {

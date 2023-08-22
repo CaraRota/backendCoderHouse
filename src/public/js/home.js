@@ -4,7 +4,7 @@ socket.emit('getProducts');
 
 socket.on('productos', (products) => {
     const html = products.map((product) => {
-        return (`
+        return (`   
         <tr>
             <td>${product.title}</td>
             <td>${product.code}</td>
