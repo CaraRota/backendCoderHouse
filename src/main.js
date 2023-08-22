@@ -46,6 +46,16 @@ io.on('connection', socket => {
             socket.emit('mensajeProductoCreado', "Error al crear el producto");
         }
     });
+
+    socket.on('eliminarProducto', async (id) => {
+        const delProd = await prodManager.deleteProduct(id);
+        if (delProd) {
+            socket.emit('mensajeProductoEliminado', "Producto eliminado correctamente");
+            socket.emit('productos', await prodManager.getProducts());
+        } else {
+            socket.emit('mensajeProductoEliminado', "Error al eliminar el producto");
+        }
+    });
 });
 
 //Routes

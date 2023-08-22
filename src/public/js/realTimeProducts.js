@@ -38,8 +38,85 @@ socket.on('productos', (products) => {
             <td>${product.description}</td>
             <td>${product.price}</td>
             <td>${product.stock}</td>
+            <td><button class="delete-btn" data-id="${product.id}">Eliminar</button></td>
         </tr>
         `);
     }).join(" ");
     document.getElementById('products').innerHTML = html;
 });
+
+const getProds = document.getElementById('products')
+
+getProds.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-btn')) {
+        const id = e.target.dataset.id;
+        socket.emit('eliminarProducto', id);
+        socket.on('mensajeProductoEliminado', (mensaje) => {
+            if (mensaje === "Producto eliminado correctamente") {
+                Swal.fire({
+                    icon: 'success',
+                    title: mensaje,
+                    showConfirmButton: true,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: mensaje,
+                    showConfirmButton: true,
+                });
+            }
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// socket.on('mensajeProductoEliminado', (mensaje) => {
+//     if (mensaje === "Producto eliminado correctamente") {
+//         Swal.fire({
+//             icon: 'success',
+//             title: mensaje,
+//             showConfirmButton: true,
+//         });
+//     } else {
+//         Swal.fire({
+//             icon: 'error',
+//             title: mensaje,
+//             showConfirmButton: true,
+//         });
+//     }
+// });

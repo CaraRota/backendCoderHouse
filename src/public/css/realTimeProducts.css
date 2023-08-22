@@ -32,7 +32,8 @@ input[type="number"] {
 }
 
 /* Style for submit button */
-input[type="submit"] {
+input[type="submit"],
+.delete-btn {
     display: block;
     width: 100%;
     padding: 10px;
@@ -44,7 +45,8 @@ input[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+.delete-btn:hover {
     background-color: #0056b3;
 }
 
