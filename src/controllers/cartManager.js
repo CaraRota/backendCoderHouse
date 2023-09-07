@@ -23,6 +23,7 @@ export default class CartManager {
             await fs.writeFile(this.cartsPath, JSON.stringify(carts))
             return true
         } catch (error) {
+            console.log(error)
         }
     }
 
