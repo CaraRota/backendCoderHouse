@@ -76,11 +76,12 @@ routerCart.get('/:cid', async (req, res) => {
 });
 
 //ADD PRODUCT TO CART
-routerCart.post('/:cid/product/:pid', async (req, res) => {
+routerCart.post('/:cid/products/:pid', async (req, res) => {
     try {
-        const { params } = req;
-        const cart = await cartsModel.findById(params.cid);
-        cart.products.push({ id_prod: params.pid, quantity: 1 });
+        const { quantity } = req.body;
+        const { cid, pid } = req.params;
+        const cart = await cartsModel.findById(cid);
+        cart.products.push({ id_prod: pid, quantity: quantity });
         await cart.save();
         res.status(200).send({ resultado: 'OK', message: cart });
     }

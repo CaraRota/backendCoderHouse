@@ -2,6 +2,8 @@ import express from 'express';
 import routerProd from './routes/products.js';
 import routerCart from './routes/carts.js';
 import routerHome from './routes/homepage.js';
+import routerMessages from './routes/messages.js';
+import messagesModel from './models/messages.js';
 import { engine } from 'express-handlebars';
 import { Server } from 'socket.io';
 import { __dirname } from "./path.js"
@@ -67,12 +69,22 @@ io.on('connection', socket => {
             socket.emit('mensajeProductoEliminado', "Error al eliminar el producto");
         }
     });
+
+    socket.on('mensaje', async data => {
+        const { email, message } = data;
+        await messagesModel.create({
+            email,
+            message
+        });
+        io.sockets.emit('mensajes', data);
+    });
 });
 
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
 app.use("/api/products", routerProd)
 app.use("/api/carts", routerCart)
+app.use("/api/messages", routerMessages)
 
 //HBs
 app.get('/static/home', (req, res) => {
