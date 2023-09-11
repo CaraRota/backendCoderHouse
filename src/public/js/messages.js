@@ -15,6 +15,7 @@ Swal.fire({
     },
     allowOutsideClick: false,
 }).then(resultado => {
+    socket.emit('getMessages');
     email = resultado.value;
 });
 
@@ -43,6 +44,21 @@ messageBox.addEventListener('keydown', event => {
         event.preventDefault();
         sendMessage();
     }
+});
+
+socket.on('all-messages', data => {
+    data.forEach(message => {
+        const newMessage = document.createElement('div');
+        newMessage.classList.add('message');
+        newMessage.innerHTML = `
+                                <div class="message">
+                                <span class="user">${message.email}</span>
+                                <span class="text">${message.message}</span>
+                                </div>
+                                `;
+        messageContainer.appendChild(newMessage);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    });
 });
 
 socket.on('mensajes', data => {

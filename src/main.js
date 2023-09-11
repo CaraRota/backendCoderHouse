@@ -45,7 +45,7 @@ io.on('connection', socket => {
     });
 
     socket.on('eliminarProducto', async (id) => {
-        const delProd = await ProductModel.findByIdAndDelete(id);
+        const delProd = await productModel.findByIdAndDelete(id);
         if (delProd) {
             socket.emit('mensajeProductoEliminado', "Producto eliminado correctamente");
             socket.emit('productos', await productModel.find());
@@ -61,6 +61,11 @@ io.on('connection', socket => {
             message
         });
         io.sockets.emit('mensajes', data);
+    });
+
+    socket.on('getMessages', async () => {
+        const messages = await messagesModel.find();
+        socket.emit('all-messages', messages);
     });
 });
 
