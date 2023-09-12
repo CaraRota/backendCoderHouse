@@ -5,16 +5,17 @@ const routerProd = Router();
 
 //READ ALL
 routerProd.get('/', async (req, res) => {
-    const { limit, page, sort, category } = req.query;
+    const { limit, page, sort, category, status } = req.query;
 
     const parsedLimit = parseInt(limit) || 10
     const parsedPage = parseInt(page) || 1
     const getSorted = sort === 'asc' || sort === 'desc' ? sort : null
 
-    const queryCategory = category ? { category } : {};
+    const queryCategory = category || null
+    const queryStatus = status || null
 
     try {
-        const prod = await ProductModel.paginate(queryCategory, { limit: parsedLimit, page: parsedPage, sort: { price: getSorted } });
+        const prod = await ProductModel.paginate({ category: { queryCategory }, status: { queryStatus } }, { limit: parsedLimit, page: parsedPage, sort: { price: getSorted } });
         res.status(200).send({ resultado: 'OK', message: prod });
     }
     catch (error) {
