@@ -16,7 +16,6 @@ import { engine } from 'express-handlebars';
 import { __dirname } from "./path.js"
 import path from 'path';
 
-
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

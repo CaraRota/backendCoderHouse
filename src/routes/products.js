@@ -11,11 +11,12 @@ routerProd.get('/', async (req, res) => {
     const parsedPage = parseInt(page) || 1
     const getSorted = sort === 'asc' || sort === 'desc' ? sort : null
 
-    const queryCategory = category || null
-    const queryStatus = status || null
+    const query = {}
+    if (category) query.category = category
+    if (status) query.status = status
 
     try {
-        const prod = await ProductModel.paginate({ category: { queryCategory }, status: { queryStatus } }, { limit: parsedLimit, page: parsedPage, sort: { price: getSorted } });
+        const prod = await ProductModel.paginate(query, { limit: parsedLimit, page: parsedPage, sort: { price: getSorted } });
         res.status(200).send({ resultado: 'OK', message: prod });
     }
     catch (error) {
