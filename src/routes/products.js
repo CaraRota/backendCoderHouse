@@ -1,49 +1,3 @@
-// import { Router } from "express";
-// import ProductManager from "../controllers/productManager.js"
-
-// const routerProd = Router();
-// const productManager = new ProductManager("./src/models/products.json");
-
-// //READ ALL
-// routerProd.get('/', async (req, res) => {
-//     const { limit } = req.query;
-//     const products = await productManager.getProducts();
-//     const prod = products.slice(0, limit);
-//     res.status(200).send(prod);
-// });
-
-// //READ BY ID
-// routerProd.get('/:pid', async (req, res) => {
-//     const { params } = req;
-//     const product = await productManager.getProductById(parseInt(params.pid));
-//     product ? res.status(200).send(product) : res.status(404).send("Producto no encontrado");
-// });
-
-// //CREATE
-// routerProd.post('/', async (req, res) => {
-//     const { title, description, price, thumbnail, code, stock, status, category } = req.body;
-//     const confirmacion = await productManager.addProduct(title, description, price, thumbnail, code, stock, status, category);
-//     confirmacion ? res.status(200).send("Producto creado correctamente") : res.status(400).send("Producto no creado. El producto ya existe o no has cargado todos los datos.")
-// });
-
-// //UPDATE
-// routerProd.put('/:pid', async (req, res) => {
-//     const { body, params } = req;
-//     const confirmacion = await productManager.updateProduct(parseInt(params.pid), body);
-//     confirmacion ? res.status(200).send("Producto modificado correctamente") : res.status(404).send("Producto no encontrado o no has cargado todos los datos");
-// });
-
-// //DELETE
-// routerProd.delete('/:pid', async (req, res) => {
-//     const { params } = req;
-//     const confirmacion = await productManager.deleteProduct(parseInt(params.pid));
-//     confirmacion ? res.status(200).send("Producto eliminado correctamente") : res.status(404).send("Producto no encontrado");
-// });
-
-// export default routerProd;
-
-// START MONGO DB IMPLEMENTATION
-
 import { Router } from "express";
 import ProductModel from "../models/products.js"
 
@@ -51,9 +5,16 @@ const routerProd = Router();
 
 //READ ALL
 routerProd.get('/', async (req, res) => {
-    const { limit } = req.query;
+    const { limit, page, sort, category } = req.query;
+
+    const parsedLimit = parseInt(limit) || 10
+    const parsedPage = parseInt(page) || 1
+    const getSorted = sort === 'asc' || sort === 'desc' ? sort : null
+
+    const queryCategory = category ? { category } : {};
+
     try {
-        const prod = await ProductModel.find().limit(parseInt(limit));
+        const prod = await ProductModel.paginate(queryCategory, { limit: parsedLimit, page: parsedPage, sort: { price: getSorted } });
         res.status(200).send({ resultado: 'OK', message: prod });
     }
     catch (error) {
@@ -63,9 +24,9 @@ routerProd.get('/', async (req, res) => {
 
 //READ BY ID
 routerProd.get('/:pid', async (req, res) => {
-    const { params } = req;
+    const { pid } = req.params;
     try {
-        const prod = await ProductModel.findById(params.pid);
+        const prod = await ProductModel.findById(pid);
         prod ? res.status(200).send({ resultado: 'OK', message: prod }) : res.status(404).send("Producto no encontrado");
     }
     catch (error) {
@@ -108,9 +69,9 @@ routerProd.put('/:pid', async (req, res) => {
 
 //DELETE
 routerProd.delete('/:pid', async (req, res) => {
-    const { params } = req;
+    const { pid } = req.params;
     try {
-        const prod = await ProductModel.findByIdAndDelete(params.pid);
+        const prod = await ProductModel.findByIdAndDelete(pid);
         prod ? res.status(200).send({ resultado: 'OK', message: prod }) : res.status(404).send("Producto no encontrado");
     }
     catch (error) {

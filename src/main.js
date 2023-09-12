@@ -35,12 +35,17 @@ io.on('connection', socket => {
 
     socket.on('nuevoProducto', async (product) => {
         console.log(product);
-        const addProd = await productModel.create(product);
-        if (addProd) {
-            socket.emit('mensajeProductoCreado', "Producto creado correctamente");
-            socket.emit('productos', await productModel.find());
-        } else {
+        try {
+            const addProd = await productModel.create(product);
+            if (addProd) {
+                socket.emit('mensajeProductoCreado', "Producto creado correctamente");
+                socket.emit('productos', await productModel.find());
+            }
+        }
+        catch (error) {
             socket.emit('mensajeProductoCreado', "Error al crear el producto");
+            socket.emit('productos', await productModel.find());
+            console.error(error);
         }
     });
 
