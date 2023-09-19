@@ -179,4 +179,11 @@ app.get('/static/login', (req, res) => {
     });
 });
 
+app.get('/static/register', (req, res) => {
+    res.render('register', {
+        rutaCSS: "register",
+        rutaJS: "register"
+    });
+});
+
 app.use("/", routerHome) //Este debe ir ultimo porque maneja el Error 404

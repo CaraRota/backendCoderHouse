@@ -4,7 +4,7 @@ const routerHome = Router();
 
 //HOME PAGE
 routerHome.get('/', async (req, res) => {
-    res.status(200).send('Home Page');
+    res.status(200).redirect('/static/login');
 });
 
 //ERROR HANDLING
