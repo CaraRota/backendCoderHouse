@@ -6,6 +6,8 @@ import routerProd from './routes/products.js';
 import routerCart from './routes/carts.js';
 import routerHome from './routes/homepage.js';
 import routerMessages from './routes/messages.js';
+import routerSession from './routes/sessions.js';
+import routerUser from './routes/users.js';
 
 // IMPORT MODELS
 import productModel from './models/products.js';
@@ -15,13 +17,36 @@ import messagesModel from './models/messages.js';
 import { engine } from 'express-handlebars';
 import { __dirname } from "./path.js"
 import path from 'path';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '/views'));
+app.use(session({
+    secret: 'secret',
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_DB_URL,
+        mongoOptions: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        },
+        ttl: 600 //10 minutos
+    }),
+}));
+
+const auth = (req, res, next) => {
+    if (req.session.email == "admin@admin.com" && req.session.password == "1234") {
+        return next() //Continua con la ejecucion normal de la ruta
+    }
+
+    return res.send("No tenes acceso a este contenido")
+}
 
 //Conexion Socket
 io.on('connection', socket => {
@@ -78,6 +103,52 @@ app.use("/static", express.static(path.join(__dirname, "/public")));
 app.use("/api/products", routerProd)
 app.use("/api/carts", routerCart)
 app.use("/api/messages", routerMessages)
+app.use('/api/users', routerUser)
+app.use('/api/sessions', routerSession)
+
+// //Cookies
+// app.get('/setCookie', (req, res) => {
+//     res.cookie('CookieCookie', 'Esto es el valor de una cookie', { maxAge: 60000, signed: true }).send('Cookie creada') //Cookie de un minuto firmada
+// })
+
+// app.get('/getCookie', (req, res) => {
+//     res.send(req.signedCookies) //Consultar solo las cookies firmadas
+//     //res.send(req.cookies) Consultar TODAS las cookies
+// })
+
+// //Sessions
+// app.get('/session', (req, res) => {
+//     if (req.session.counter) { //Si existe la variable counter en la sesion
+//         req.session.counter++
+//         res.send(`Has entrado ${req.session.counter} veces a mi pagina`)
+//     } else {
+//         req.session.counter = 1
+//         res.send("Hola, por primera vez")
+//     }
+// })
+
+// app.get('/login', (req, res) => {
+//     const { email, password } = req.body
+
+//     req.session.email = email
+//     req.session.password = password
+
+//     return res.send("Usuario logueado")
+
+// })
+
+// app.get('/admin', auth, (req, res) => {
+//     res.send("Sos admin")
+// })
+
+// app.get('/logout', (req, res) => {
+//     req.session.destroy((error) => {
+//         if (error)
+//             console.log(error)
+//         else
+//             res.redirect('/')
+//     })
+// })
 
 //HBs
 app.get('/static/home', (req, res) => {
@@ -98,6 +169,13 @@ app.get('/static/messages', (req, res) => {
     res.render('messages', {
         rutaCSS: "messages",
         rutaJS: "messages"
+    });
+});
+
+app.get('/static/login', (req, res) => {
+    res.render('login', {
+        rutaCSS: "login",
+        rutaJS: "login"
     });
 });
 
