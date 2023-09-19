@@ -12,6 +12,7 @@ import routerUser from './routes/users.js';
 // IMPORT MODELS
 import productModel from './models/products.js';
 import messagesModel from './models/messages.js';
+import userModel from './models/users.js';
 
 // OTHERS
 import { engine } from 'express-handlebars';
@@ -24,12 +25,12 @@ import MongoStore from 'connect-mongo';
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.SIGNED_COOKIE));
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '/views'));
 app.use(session({
-    secret: 'secret',
+    secret: process.env.SESSION_SECRET,
     store: MongoStore.create({
         mongoUrl: process.env.MONGO_DB_URL,
         mongoOptions: {
@@ -96,6 +97,19 @@ io.on('connection', socket => {
         const messages = await messagesModel.find();
         socket.emit('all-messages', messages);
     });
+
+    socket.on('registerNewUser', async (user) => {
+        try {
+            const addUser = await userModel.create(user);
+            if (addUser) {
+                socket.emit('newUserCreated', "Usuario creado correctamente");
+            }
+        }
+        catch (error) {
+            socket.emit('newUserCreated', "Error al crear un nuevo usuario");
+            console.error(error);
+        }
+    });
 });
 
 //Routes
@@ -106,49 +120,49 @@ app.use("/api/messages", routerMessages)
 app.use('/api/users', routerUser)
 app.use('/api/sessions', routerSession)
 
-// //Cookies
-// app.get('/setCookie', (req, res) => {
-//     res.cookie('CookieCookie', 'Esto es el valor de una cookie', { maxAge: 60000, signed: true }).send('Cookie creada') //Cookie de un minuto firmada
-// })
+//Cookies
+app.get('/setCookie', (req, res) => {
+    res.cookie('CookieCookie', 'Esto es el valor de una cookie', { maxAge: 60000, signed: true }).send('Cookie creada') //Cookie de un minuto firmada
+})
 
-// app.get('/getCookie', (req, res) => {
-//     res.send(req.signedCookies) //Consultar solo las cookies firmadas
-//     //res.send(req.cookies) Consultar TODAS las cookies
-// })
+app.get('/getCookie', (req, res) => {
+    res.send(req.signedCookies) //Consultar solo las cookies firmadas
+    //res.send(req.cookies) Consultar TODAS las cookies
+})
 
-// //Sessions
-// app.get('/session', (req, res) => {
-//     if (req.session.counter) { //Si existe la variable counter en la sesion
-//         req.session.counter++
-//         res.send(`Has entrado ${req.session.counter} veces a mi pagina`)
-//     } else {
-//         req.session.counter = 1
-//         res.send("Hola, por primera vez")
-//     }
-// })
+//Sessions
+app.get('/session', (req, res) => {
+    if (req.session.counter) { //Si existe la variable counter en la sesion
+        req.session.counter++
+        res.send(`Has entrado ${req.session.counter} veces a mi pagina`)
+    } else {
+        req.session.counter = 1
+        res.send("Hola, por primera vez")
+    }
+})
 
-// app.get('/login', (req, res) => {
-//     const { email, password } = req.body
+app.get('/login', (req, res) => {
+    const { email, password } = req.body
 
-//     req.session.email = email
-//     req.session.password = password
+    req.session.email = email
+    req.session.password = password
 
-//     return res.send("Usuario logueado")
+    return res.send("Usuario logueado")
 
-// })
+})
 
-// app.get('/admin', auth, (req, res) => {
-//     res.send("Sos admin")
-// })
+app.get('/admin', auth, (req, res) => {
+    res.send("Sos admin")
+})
 
-// app.get('/logout', (req, res) => {
-//     req.session.destroy((error) => {
-//         if (error)
-//             console.log(error)
-//         else
-//             res.redirect('/')
-//     })
-// })
+app.get('/logout', (req, res) => {
+    req.session.destroy((error) => {
+        if (error)
+            console.log(error)
+        else
+            res.redirect('/')
+    })
+})
 
 //HBs
 app.get('/static/home', (req, res) => {

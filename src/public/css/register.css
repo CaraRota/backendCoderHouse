@@ -31,7 +31,8 @@
 
 .register-form input[type="text"],
 .register-form input[type="password"],
-.register-form input[type="email"] {
+.register-form input[type="email"],
+.register-form input[type="number"] {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
