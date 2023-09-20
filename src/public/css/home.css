@@ -1,4 +1,4 @@
-h1 {
+h3 {
     text-align: center;
 }
 
@@ -22,4 +22,23 @@ h1 {
 
 .product-table img {
     max-width: 50px;
+}
+
+.logout-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout-button {
+    background-color: #ff5733;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #ff2200;
 }

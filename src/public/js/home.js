@@ -1,6 +1,12 @@
 const socket = io();
 
 socket.emit('getProducts');
+socket.emit('getUserEmail');
+
+socket.on('userEmail', (email) => {
+    const html = `<h3>Bienvenido: ${email}</h3>`;
+    document.getElementById('userEmail').innerHTML = html;
+});
 
 socket.on('productos', (products) => {
     const html = products.map((product) => {
@@ -16,4 +22,17 @@ socket.on('productos', (products) => {
         `);
     }).join(" ");
     document.getElementById('products').innerHTML = html;
+});
+
+const logoutBtn = document.getElementById('logoutBtn');
+
+logoutBtn.addEventListener('click', () => {
+    fetch('/api/sessions/logout', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(() => {
+        window.location.replace('/static/login');
+    });
 });

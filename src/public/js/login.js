@@ -1,26 +1,30 @@
-import { showSuccessMessage, showErrorMessage} from './swalfire.js';
-
-const socket = io();
+import { showSuccessMessage, showErrorMessage } from './swalfire.js';
 
 const form = document.getElementById('formLogin');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const dataForm = new FormData(e.target);
-    const loginData = Object.fromEntries(dataForm);
+    const dataForm = new FormData(form);
 
-    socket.emit('loginUser', loginData);
-    socket.on('userLogged', (mensaje) => {
-        if (mensaje === "Usuario logueado correctamente") {
-            showSuccessMessage(mensaje, 'Ingresar').then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/static/home";
-                }
-            })
-        } else {
-            showErrorMessage(mensaje);
+    const obj = {};
+
+    dataForm.forEach((value, key) => obj[key] = value);
+    fetch('/api/sessions/login', {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: {
+            'Content-Type': 'application/json'
         }
-    });
-    e.target.reset();
-});
+    }).then(result => result.json())
+        .then(json => {
+            if (json.resultado === 'Login valido') {
+                showSuccessMessage(json.resultado, "Acceder")
+                    .then(() => {
+                        window.location.replace('/static/home');
+                    });
+            } else {
+                showErrorMessage(json.resultado);
+            }
+        })
+})

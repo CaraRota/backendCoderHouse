@@ -7,20 +7,25 @@ const form = document.getElementById('formRegister');
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const dataForm = new FormData(e.target);
-    const registerNewUser = Object.fromEntries(dataForm);
+    const dataForm = new FormData(form);
 
-    socket.emit('registerNewUser', registerNewUser);
-    socket.on('newUserCreated', (mensaje) => {
-        if (mensaje === "Usuario creado correctamente") {
-            showSuccessMessage(mensaje, 'Iniciar sesión').then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/static/login";
-                }
-            })
-        } else {
-            showErrorMessage(mensaje);
+    const obj = {};
+    dataForm.forEach((value, key) => obj[key] = value);
+    fetch('/api/sessions/register', {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: {
+            'Content-Type': 'application/json'
         }
-    });
+    }).then(result => {
+        if (result.status === 200) {
+            showSuccessMessage('Usuario creado', "Iniciar Sesion")
+                .then(() => {
+                    window.location.replace('/static/login');
+                });
+        } else {
+            showErrorMessage('Error al crear usuario');
+        }
+    })
     e.target.reset();
-});
+})
