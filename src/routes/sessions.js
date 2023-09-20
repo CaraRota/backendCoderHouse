@@ -57,10 +57,17 @@ routerSession.post('/register', async (req, res) => {
 
 routerSession.get('/logout', (req, res) => {
     if (req.session.login) {
-        req.session.destroy()
+        try {
+            req.session.destroy()
+            res.status(200).send({ resultado: 'Has cerrado sesion' })
+            // res.redirect('/static/login');
+        }
+        catch (error) {
+            res.status(400).send({ error: `Error al cerrar sesion: ${error}` });
+        }
+    } else {
+        res.status(400).send({ error: `No hay sesion iniciada` });
     }
-    res.status(200).send({ resultado: 'Has cerrado sesion' })
-    // res.redirect('/static/login');
 })
 
 export default routerSession;
