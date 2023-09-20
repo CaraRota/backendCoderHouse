@@ -31,7 +31,7 @@ h3 {
 }
 
 .logout-button {
-    background-color: #ff5733;
+    background-color: #943431d7;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -40,5 +40,5 @@ h3 {
 }
 
 .logout-button:hover {
-    background-color: #ff2200;
+    background-color: #db514cd7;
 }

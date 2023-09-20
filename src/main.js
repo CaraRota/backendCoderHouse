@@ -43,7 +43,7 @@ app.use(session({
 
 //Auth para admin
 const authAdmin = (req, res, next) => {
-    if (req.session.email == "admin@admin.com" && req.session.password == "1234") {
+    if (req.session.email == "admin@admin.com") {
         return next() //Continua con la ejecucion normal de la ruta
     }
     return res.send("No tenes acceso a este contenido")
@@ -105,9 +105,6 @@ io.on('connection', socket => {
         const messages = await messagesModel.find();
         socket.emit('all-messages', messages);
     });
-    socket.on('getUserEmail', () => {
-        socket.emit('userEmail', "req.session.email");
-    });
 });
 
 //Routes
@@ -123,6 +120,7 @@ app.get('/static/home', authUser, (req, res) => {
     res.render('home', {
         rutaCSS: "home",
         rutaJS: "home",
+        email: req.session.email
     });
 });
 

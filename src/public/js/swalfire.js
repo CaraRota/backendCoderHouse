@@ -8,7 +8,9 @@ const showMessage = (mensaje, icon, confirmButtonText = 'OK') => {
         title: mensaje,
         showConfirmButton: true,
         allowOutsideClick: false,
-        confirmButtonText
+        confirmButtonText,
+        confirmButtonColor: '#007bff',
+        confirButtonHoverColor: '#0056b3',
     })
 }
 

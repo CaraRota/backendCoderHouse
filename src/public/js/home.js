@@ -1,12 +1,6 @@
 const socket = io();
 
 socket.emit('getProducts');
-socket.emit('getUserEmail');
-
-socket.on('userEmail', (email) => {
-    const html = `<h3>Bienvenido: ${email}</h3>`;
-    document.getElementById('userEmail').innerHTML = html;
-});
 
 socket.on('productos', (products) => {
     const html = products.map((product) => {
