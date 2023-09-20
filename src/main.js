@@ -108,6 +108,25 @@ io.on('connection', socket => {
         socket.emit('all-messages', messages);
     });
 
+    socket.on('loginUser', async (user) => {
+        try {
+            const findUser = await userModel.findOne({ email: user.email });
+            if (findUser) {
+                if (findUser.password === user.password) {
+                    socket.emit('userLogged', "Usuario logueado correctamente");
+                } else {
+                    socket.emit('userLogged', "Contraseña incorrecta");
+                }
+            } else {
+                socket.emit('userLogged', "Usuario no encontrado");
+            }
+        }
+        catch (error) {
+            socket.emit('userLogged', `Error al iniciar sesión`);
+            console.error(error);
+        }
+    });
+
     socket.on('registerNewUser', async (user) => {
         try {
             const addUser = await userModel.create(user);
@@ -116,7 +135,7 @@ io.on('connection', socket => {
             }
         }
         catch (error) {
-            socket.emit('newUserCreated', `Error al crear un nuevo usuario ${error}`);
+            socket.emit('newUserCreated', `Error al crear un nuevo usuario`);
             console.error(error);
         }
     });

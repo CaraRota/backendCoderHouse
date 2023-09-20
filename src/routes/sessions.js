@@ -58,7 +58,7 @@ routerSession.get('/logout', (req, res) => {
         req.session.destroy()
     }
     res.status(200).send({ resultado: 'Has cerrado sesion' })
-    res.redirect('/static/home');
+    res.redirect('/static/login');
 })
 
 export default routerSession;

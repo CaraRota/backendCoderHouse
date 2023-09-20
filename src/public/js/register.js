@@ -1,3 +1,5 @@
+import { showErrorMessage, showSuccessMessage } from "./swalfire.js";
+
 const socket = io();
 
 const form = document.getElementById('formRegister');
@@ -11,22 +13,13 @@ form.addEventListener('submit', (e) => {
     socket.emit('registerNewUser', registerNewUser);
     socket.on('newUserCreated', (mensaje) => {
         if (mensaje === "Usuario creado correctamente") {
-            Swal.fire({
-                icon: 'success',
-                title: mensaje,
-                showConfirmButton: true,
-                confirmButtonText: 'Iniciar sesión',
-            }).then((result) => {
+            showSuccessMessage(mensaje, 'Iniciar sesión').then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = "/static/login";
                 }
             })
         } else {
-            Swal.fire({
-                icon: 'error',
-                title: mensaje,
-                showConfirmButton: true,
-            })
+            showErrorMessage(mensaje);
         }
     });
     e.target.reset();
