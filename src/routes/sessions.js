@@ -16,7 +16,7 @@ routerSession.post('/login', async (req, res) => {
                     req.session.login = true;
                     req.session.email = email;
                     res.status(200).send({ resultado: 'OK', message: 'Sesión iniciada correctamente' });
-                    res.redirect('/static/home', 200, { user: req.session.email });
+                    // res.redirect('/static/home', 200, { user: req.session.email });
                 } else {
                     res.status(400).send({ error: `Contraseña incorrecta` });
                 }
@@ -46,7 +46,7 @@ routerSession.post('/register', async (req, res) => {
             age
         })
         res.status(200).send({ mensaje: 'Usuario creado', respuesta: response })
-        res.redirect('/static/home', 200, { mensaje: 'Usuario creado', respuesta: first_name });
+        // res.redirect('/static/home', 200, { mensaje: 'Usuario creado', respuesta: first_name });
     }
     catch (error) {
         res.status(400).send({ error: `Error al crear usuario: ${error}` });
@@ -58,7 +58,7 @@ routerSession.get('/logout', (req, res) => {
         req.session.destroy()
     }
     res.status(200).send({ resultado: 'Has cerrado sesion' })
-    res.redirect('/static/login');
+    // res.redirect('/static/login');
 })
 
 export default routerSession;

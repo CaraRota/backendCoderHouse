@@ -15,7 +15,7 @@ routerUser.post('/', async (req, res) => {
             age
         })
         res.status(200).send({ mensaje: 'Usuario creado', respuesta: response })
-        res.redirect('/static/home', 200, { mensaje: 'Usuario creado', respuesta: first_name });
+        // res.redirect('/static/home', 200, { mensaje: 'Usuario creado', respuesta: first_name });
     }
     catch (error) {
         res.status(400).send({ error: `Error al crear usuario: ${error}` });
