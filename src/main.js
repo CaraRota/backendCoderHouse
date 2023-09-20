@@ -41,8 +41,18 @@ app.use(session({
     }),
 }));
 
-const auth = (req, res, next) => {
+//Auth para admin
+const authAdmin = (req, res, next) => {
     if (req.session.email == "admin@admin.com" && req.session.password == "1234") {
+        return next() //Continua con la ejecucion normal de la ruta
+    }
+
+    return res.send("No tenes acceso a este contenido")
+}
+
+//Auth para usuarios logueados
+const authUser = (req, res, next) => {
+    if (req.session.email) {
         return next() //Continua con la ejecucion normal de la ruta
     }
 
@@ -106,7 +116,7 @@ io.on('connection', socket => {
             }
         }
         catch (error) {
-            socket.emit('newUserCreated', "Error al crear un nuevo usuario");
+            socket.emit('newUserCreated', `Error al crear un nuevo usuario ${error}`);
             console.error(error);
         }
     });
@@ -151,7 +161,17 @@ app.get('/login', (req, res) => {
 
 })
 
-app.get('/admin', auth, (req, res) => {
+app.get('/register', (req, res) => {
+    const { email, password } = req.body
+
+    req.session.email = email
+    req.session.password = password
+
+    return res.send("Usuario registrado")
+
+})
+
+app.get('/admin', authAdmin, (req, res) => {
     res.send("Sos admin")
 })
 
@@ -165,21 +185,21 @@ app.get('/logout', (req, res) => {
 })
 
 //HBs
-app.get('/static/home', (req, res) => {
+app.get('/static/home', authUser, (req, res) => {
     res.render('home', {
         rutaCSS: "home",
         rutaJS: "home"
     });
 });
 
-app.get('/static/realtimeproducts', (req, res) => {
+app.get('/static/realtimeproducts', authAdmin, (req, res) => {
     res.render('realTimeProducts', {
         rutaCSS: "realTimeProducts",
         rutaJS: "realTimeProducts"
     });
 });
 
-app.get('/static/messages', (req, res) => {
+app.get('/static/messages', authUser, (req, res) => {
     res.render('messages', {
         rutaCSS: "messages",
         rutaJS: "messages"

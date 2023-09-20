@@ -1,6 +1,6 @@
 const socket = io();
 
-const form = document.getElementsByClassName('register-form');
+const form = document.getElementById('formRegister');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -15,6 +15,11 @@ form.addEventListener('submit', (e) => {
                 icon: 'success',
                 title: mensaje,
                 showConfirmButton: true,
+                confirmButtonText: 'Iniciar sesión',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/static/login";
+                }
             })
         } else {
             Swal.fire({

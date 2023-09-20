@@ -30,6 +30,29 @@ routerSession.post('/login', async (req, res) => {
     }
 });
 
+routerSession.post('/register', async (req, res) => {
+    const { first_name, last_name, email, password, age } = req.body;
+
+    if (req.session.login) {
+        res.status(400).send({ error: `Ya hay una sesión iniciada` });
+    }
+
+    try {
+        const response = await userModel.create({
+            first_name,
+            last_name,
+            email,
+            password,
+            age
+        })
+        res.status(200).send({ mensaje: 'Usuario creado', respuesta: response })
+        res.redirect('/static/home', 200, { mensaje: 'Usuario creado', respuesta: first_name });
+    }
+    catch (error) {
+        res.status(400).send({ error: `Error al crear usuario: ${error}` });
+    }
+});
+
 routerSession.get('/logout', (req, res) => {
     if (req.session.login) {
         req.session.destroy()
