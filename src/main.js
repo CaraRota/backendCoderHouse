@@ -120,7 +120,8 @@ app.get('/static/home', authUser, (req, res) => {
     res.render('home', {
         rutaCSS: "home",
         rutaJS: "home",
-        email: req.session.email
+        email: req.session.email,
+        userRole: req.session.userRole
     });
 });
 
