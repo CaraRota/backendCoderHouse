@@ -1,3 +1,5 @@
+import { showSuccessMessage, showErrorMessage } from './swalfire.js';
+
 const socket = io();
 
 socket.emit('getProducts');
@@ -21,12 +23,19 @@ socket.on('productos', (products) => {
 const logoutBtn = document.getElementById('logoutBtn');
 
 logoutBtn.addEventListener('click', () => {
-    fetch('/api/sessions/logout', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(() => {
-        window.location.replace('/static/login');
-    });
+    try {
+        fetch('/api/sessions/logout', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        showSuccessMessage('Has cerrado sesion')
+            .then(() => {
+                window.location.replace('/static/login');
+            });
+    } catch (error) {
+        showErrorMessage('Error al cerrar sesion');
+        console.log(error);
+    }
 });
