@@ -1,3 +1,5 @@
+import { showErrorMessage, showSuccessMessage } from "./swalfire.js";
+
 const socket = io();
 
 socket.emit('getProducts')
@@ -12,19 +14,10 @@ form.addEventListener('submit', (e) => {
     socket.emit('nuevoProducto', product);
     socket.on('mensajeProductoCreado', (mensaje) => {
         if (mensaje === "Producto creado correctamente") {
-            Swal.fire({
-                icon: 'success',
-                title: mensaje,
-                showConfirmButton: true,
-            })
+            showSuccessMessage(mensaje);
         } else {
-            Swal.fire({
-                icon: 'error',
-                title: mensaje,
-                showConfirmButton: true,
-            })
+            showErrorMessage(mensaje);
         }
-        console.log(mensaje);
     });
     e.target.reset();
 });
@@ -53,70 +46,10 @@ getProds.addEventListener('click', (e) => {
         socket.emit('eliminarProducto', id);
         socket.on('mensajeProductoEliminado', (mensaje) => {
             if (mensaje === "Producto eliminado correctamente") {
-                Swal.fire({
-                    icon: 'success',
-                    title: mensaje,
-                    showConfirmButton: true,
-                });
+                showSuccessMessage(mensaje);
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: mensaje,
-                    showConfirmButton: true,
-                });
+                showErrorMessage(mensaje);
             }
         });
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// socket.on('mensajeProductoEliminado', (mensaje) => {
-//     if (mensaje === "Producto eliminado correctamente") {
-//         Swal.fire({
-//             icon: 'success',
-//             title: mensaje,
-//             showConfirmButton: true,
-//         });
-//     } else {
-//         Swal.fire({
-//             icon: 'error',
-//             title: mensaje,
-//             showConfirmButton: true,
-//         });
-//     }
-// });
