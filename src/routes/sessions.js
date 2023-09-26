@@ -12,7 +12,7 @@ routerSession.post('/login', async (req, res) => {
         } else {
             const user = await userModel.findOne({ email: email });
 
-            user.email === "admin@admin.com" ? req.session.userRole = "el rey de la app (admin)" : req.session.userRole = "un mendigo mercachifle (user)";
+            user.email === process.env.ADMIN_EMAIL ? req.session.userRole = "el rey de la app (admin)" : req.session.userRole = "un mendigo mercachifle (user)";
 
             if (user) {
                 if (user.password == password) {
@@ -30,7 +30,6 @@ routerSession.post('/login', async (req, res) => {
         res.status(400).send({ error: `Error en login: ${error}` });
     }
 });
-
 
 routerSession.post('/register', async (req, res) => {
     const { first_name, last_name, email, password, age } = req.body;
