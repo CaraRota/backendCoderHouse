@@ -20,7 +20,7 @@ routerSession.post('/login', async (req, res) => {
                     req.session.email = user.email;
                     res.status(200).send({ resultado: 'Login valido', message: user });
                 } else {
-                    res.status(401).send({ resultado: 'Unauthorized', message: user });
+                    res.status(401).send({ resultado: 'Login invalido', message: user });
                 }
             } else {
                 res.status(404).send({ resultado: 'Not Found', message: user });

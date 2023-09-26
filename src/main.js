@@ -8,11 +8,11 @@ import routerHome from './routes/homepage.js';
 import routerMessages from './routes/messages.js';
 import routerSession from './routes/sessions.js';
 import routerUser from './routes/users.js';
+import routerHandlebars from './routes/handlebars.js';
 
 // IMPORT MODELS
 import productModel from './models/products.js';
 import messagesModel from './models/messages.js';
-import userModel from './models/users.js';
 
 // OTHERS
 import { engine } from 'express-handlebars';
@@ -40,22 +40,6 @@ app.use(session({
         ttl: 600 //10 minutos
     }),
 }));
-
-//Auth para admin
-const authAdmin = (req, res, next) => {
-    if (req.session.email == "admin@admin.com") {
-        return next() //Continua con la ejecucion normal de la ruta
-    }
-    return res.send("No tenes acceso a este contenido")
-}
-
-//Auth para usuarios logueados
-const authUser = (req, res, next) => {
-    if (req.session.login) {
-        return next() //Continua con la ejecucion normal de la ruta
-    }
-    return res.send("No tenes acceso a este contenido")
-}
 
 //Conexion Socket
 io.on('connection', socket => {
@@ -109,48 +93,13 @@ io.on('connection', socket => {
 
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
+app.use('/static', routerHandlebars);
+
+
 app.use("/api/products", routerProd)
 app.use("/api/carts", routerCart)
 app.use("/api/messages", routerMessages)
 app.use('/api/users', routerUser)
 app.use('/api/sessions', routerSession)
-
-//HBs
-app.get('/static/home', authUser, (req, res) => {
-    res.render('home', {
-        rutaCSS: "home",
-        rutaJS: "home",
-        email: req.session.email,
-        userRole: req.session.userRole
-    });
-});
-
-app.get('/static/realtimeproducts', authAdmin, (req, res) => {
-    res.render('realTimeProducts', {
-        rutaCSS: "realTimeProducts",
-        rutaJS: "realTimeProducts"
-    });
-});
-
-app.get('/static/messages', authUser, (req, res) => {
-    res.render('messages', {
-        rutaCSS: "messages",
-        rutaJS: "messages"
-    });
-});
-
-app.get('/static/login', (req, res) => {
-    res.render('login', {
-        rutaCSS: "login",
-        rutaJS: "login",
-    });
-});
-
-app.get('/static/register', (req, res) => {
-    res.render('register', {
-        rutaCSS: "register",
-        rutaJS: "register"
-    });
-});
 
 app.use("/", routerHome) //Este debe ir ultimo porque maneja el Error 404
