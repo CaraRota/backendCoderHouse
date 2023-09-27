@@ -5,7 +5,7 @@ const routerHandlebars = Router();
 
 //Auth para admin
 const authAdmin = (req, res, next) => {
-    if (req.session.user.email == process.env.ADMIN_EMAIL) {
+    if (req.user && req.user.role === "admin") {
         return next() //Continua con la ejecucion normal de la ruta
     }
     return res.send("No tenes acceso a este contenido")
@@ -13,10 +13,11 @@ const authAdmin = (req, res, next) => {
 
 //Auth para usuarios logueados
 const authUser = (req, res, next) => {
-    if (req.session.user) {
-        return next() //Continua con la ejecucion normal de la ruta
+    // Check if req.user exists and has an email property
+    if (req.user) {
+        return next(); // Continua con la ejecución normal de la ruta
     }
-    return res.send("No tenes acceso a este contenido")
+    return res.send("No tenes acceso a este contenido");
 }
 
 //HBs
@@ -25,7 +26,7 @@ routerHandlebars.get('/home', authUser, (req, res) => {
         rutaCSS: "home",
         rutaJS: "home",
         email: req.user.email,
-        userRole: req.session.user.userRole
+        userRole: req.user.role
     });
 });
 

@@ -13,7 +13,8 @@ routerSession.post('/register', passport.authenticate('register'), async (req, r
             first_name: req.user.first_name,
             last_name: req.user.last_name,
             age: req.user.age,
-            email: req.user.email
+            email: req.user.email,
+            role: req.user.role
         }
         res.status(200).send({ payload: req.user })
     }
@@ -27,17 +28,12 @@ routerSession.post('/login', passport.authenticate('login'), async (req, res) =>
         if (!req.user) {
             res.status(401).send({ error: `Error al iniciar sesion` });
         }
-        if (req.user.email === process.env.ADMIN_EMAIL) {
-            userRole = "el rey de la app (admin)";
-        } else {
-            userRole = "un mendigo mercachifle (user)";
-        }
         req.session.user = {
             first_name: req.user.first_name,
             last_name: req.user.last_name,
             age: req.user.age,
             email: req.user.email,
-            userRole: req.user.userRole
+            role: req.user.role
         }
         res.status(200).send({ payload: req.user })
     } catch (error) {
@@ -45,8 +41,18 @@ routerSession.post('/login', passport.authenticate('login'), async (req, res) =>
     }
 })
 
+routerSession.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
+    res.status(200).send({ mensaje: 'Usuario creado' })
+})
+
+routerSession.get('/githubSessions', passport.authenticate('github'), async (req, res) => {
+    req.session.user = req.user
+    res.redirect('/static/home'); //Redirigimos al usuario a home una vez inicia sesion correctamente
+    // res.status(200).send({ mensaje: 'Sesion creada' })
+})
+
 routerSession.get('/logout', (req, res) => {
-    if (req.session.login) {
+    if (req.session.user) {
         try {
             req.session.destroy()
             res.status(200).send({ resultado: 'Has cerrado sesion' })

@@ -3,6 +3,7 @@ import passport from 'passport' //Manejador de las estrategias
 import GithubStrategy from 'passport-github2'
 import { createHash, validatePassword } from '../utils/bcrypt.js'
 import userModel from '../models/users.js'
+import 'dotenv/config'
 
 
 //Defino la estrategia a utilizar
@@ -51,33 +52,35 @@ const initializePassport = () => {
         }
     }))
 
-    // passport.use('github', new GithubStrategy({
-    //     clientID: process.env.GITHUB_CLIENT_ID,
-    //     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    //     callbackURL: process.env.GITHUB_CALLBACK_URL
+    passport.use('github', new GithubStrategy({
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: process.env.GITHUB_CALLBACK_URL
 
-    // }, async (accessToken, refreshToken, profile, done) => {
+    }, async (accessToken, refreshToken, profile, done) => {
 
-    //     try {
-    //         const user = await userModel.findOne({ email: profile._json.email })
-    //         if (!user) {
-    //             const userCreated = await userModel.create({
-    //                 first_name: profile._json.name,
-    //                 last_name: ' ',
-    //                 email: profile._json.email,
-    //                 age: 18, //Edad por defecto,
-    //                 password: 'password'
-    //             })
-    //             done(null, userCreated)
+        try {
+            console.log(profile)
+            const user = await userModel.findOne({ email: profile._json.email })
+            if (!user) {
+                const hashPassword = createHash('password')
+                const userCreated = await userModel.create({
+                    first_name: profile._json.name,
+                    last_name: ' ',
+                    email: profile._json.email,
+                    age: 18, //Edad por defecto,
+                    password: hashPassword,
+                })
+                done(null, userCreated)
 
-    //         } else {
-    //             done(null, user)
-    //         }
+            } else {
+                done(null, user)
+            }
 
-    //     } catch (error) {
-    //         done(error)
-    //     }
-    // }))
+        } catch (error) {
+            done(error)
+        }
+    }))
 
     //Inicializar la session del usr
     passport.serializeUser((user, done) => {
