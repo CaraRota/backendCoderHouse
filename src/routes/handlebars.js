@@ -1,10 +1,11 @@
 import { Router } from "express";
+import 'dotenv/config'
 
 const routerHandlebars = Router();
 
 //Auth para admin
 const authAdmin = (req, res, next) => {
-    if (req.session.email == process.env.ADMIN_EMAIL) {
+    if (req.session.user.email == process.env.ADMIN_EMAIL) {
         return next() //Continua con la ejecucion normal de la ruta
     }
     return res.send("No tenes acceso a este contenido")
@@ -12,7 +13,7 @@ const authAdmin = (req, res, next) => {
 
 //Auth para usuarios logueados
 const authUser = (req, res, next) => {
-    if (req.session.login) {
+    if (req.session.user) {
         return next() //Continua con la ejecucion normal de la ruta
     }
     return res.send("No tenes acceso a este contenido")
@@ -23,8 +24,8 @@ routerHandlebars.get('/home', authUser, (req, res) => {
     res.render('home', {
         rutaCSS: "home",
         rutaJS: "home",
-        email: req.session.email,
-        userRole: req.session.userRole
+        email: req.user.email,
+        userRole: req.session.user.userRole
     });
 });
 

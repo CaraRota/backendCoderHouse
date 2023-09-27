@@ -21,6 +21,10 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import passport from 'passport';
+import initializePassport from './config/passport.js';
+import 'dotenv/config'
+
 
 //Middlewares
 app.use(express.json());
@@ -40,6 +44,9 @@ app.use(session({
         ttl: 600 //10 minutos
     }),
 }));
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 //Conexion Socket
 io.on('connection', socket => {
