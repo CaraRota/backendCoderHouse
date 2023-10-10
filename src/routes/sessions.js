@@ -57,7 +57,6 @@ routerSession.get('/testJWT', passport.authenticate('jwt', { session: true }), a
     }
 })
 
-// <<<<<<<< authorization('user') me esta pateando, borrarlo y funciona..
 routerSession.get('/current', passportError('jwt'), authorization('user'), (req, res) => {
     res.send(req.user)
 })
