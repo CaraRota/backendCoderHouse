@@ -47,7 +47,6 @@ routerSession.post('/login', passport.authenticate('login'), async (req, res) =>
     }
 })
 
-
 routerSession.get('/testJWT', passport.authenticate('jwt', { session: true }), async (req, res) => {
     res.status(200).send({ mensaje: req.user })
     req.session.user = {
