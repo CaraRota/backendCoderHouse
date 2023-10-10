@@ -1,16 +1,38 @@
 import local from 'passport-local' //Estrategia
 import passport from 'passport' //Manejador de las estrategias
+import jwt from 'passport-jwt' //Generador de tokens
 import GithubStrategy from 'passport-github2'
 import { createHash, validatePassword } from '../utils/bcrypt.js'
 import userModel from '../models/users.js'
 import 'dotenv/config'
 
-
 //Defino la estrategia a utilizar
 const LocalStrategy = local.Strategy
+const JWTStrategy = jwt.Strategy
+const ExtractJWT = jwt.ExtractJwt
 
 const initializePassport = () => {
-    //done es como si fuera un res.status(), el callback de respuesta
+
+    const cookieExtractor = (req) => {
+        const token = req.cookies ? req.cookies.jwtCookie : {}
+        return token
+    }
+
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: process.env.JWTSECRET
+    }, async (jwtPayload, done) => {
+        try {
+            const user = await userModel.findById(jwtPayload.user._id)
+            if (!user) {
+                return done(null, false)
+            }
+            return done(null, user)
+        } catch (error) {
+            return done(error)
+        }
+    }))
+
     passport.use('register', new LocalStrategy(
         { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
             //Defino como voy a registrar un user

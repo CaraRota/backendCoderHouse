@@ -29,7 +29,7 @@ import 'dotenv/config'
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(process.env.SIGNED_COOKIE));
+app.use(cookieParser(process.env.JWTSECRET));
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '/views'));
