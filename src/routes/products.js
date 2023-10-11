@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ProductModel from "../models/products.js"
+import { authorization } from "../utils/messageErrors.js";
 
 const routerProd = Router();
 
@@ -37,7 +38,7 @@ routerProd.get('/:pid', async (req, res) => {
 });
 
 //CREATE
-routerProd.post('/', async (req, res) => {
+routerProd.post('/', authorization('admin'), async (req, res) => {
     const { title, description, price, thumbnail, code, stock, status, category } = req.body;
     try {
         const respuesta = await ProductModel.create({
@@ -58,7 +59,7 @@ routerProd.post('/', async (req, res) => {
 });
 
 //UPDATE
-routerProd.put('/:pid', async (req, res) => {
+routerProd.put('/:pid', authorization('admin'), async (req, res) => {
     const { body, params } = req;
     try {
         const prod = await ProductModel.findByIdAndUpdate(params.pid, body);
@@ -70,7 +71,7 @@ routerProd.put('/:pid', async (req, res) => {
 });
 
 //DELETE
-routerProd.delete('/:pid', async (req, res) => {
+routerProd.delete('/:pid', authorization('admin'), async (req, res) => {
     const { pid } = req.params;
     try {
         const prod = await ProductModel.findByIdAndDelete(pid);
