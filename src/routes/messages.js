@@ -1,30 +1,10 @@
 import { Router } from "express";
-import messagesModel from "../models/messages.js";
+import { getMessages, postMessage } from "../controllers/messages.js";
+import { passportError, authorization } from "../utils/messageErrors.js";
 
 const routerMessages = Router();
 
-routerMessages.get('/', async (req, res) => {
-    try {
-        const messages = await messagesModel.find();
-        res.status(200).send({ resultado: 'OK', message: messages });
-    }
-    catch (error) {
-        res.status(400).send({ error: `Error al consultar mensajes: ${error}` });
-    }
-});
-
-routerMessages.post('/', async (req, res) => {
-    const { email, message } = req.body;
-    try {
-        const respuesta = await messagesModel.create({
-            email,
-            message
-        })
-        res.status(200).send({ resultado: 'OK', message: respuesta });
-    }
-    catch (error) {
-        res.status(400).send({ error: `Error al crear mensaje: ${error}` });
-    }
-});
+routerMessages.get('/', passportError('jwt'), authorization(['user', 'admin']), getMessages);
+routerMessages.post('/', passportError('jwt'), authorization(['user', 'admin']), postMessage);
 
 export default routerMessages;

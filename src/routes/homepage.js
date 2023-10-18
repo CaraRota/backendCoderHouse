@@ -1,19 +1,9 @@
 import { Router } from "express";
+import { getHomepage, handleErrors } from "../controllers/homepage.js";
 
 const routerHome = Router();
 
-//HOME PAGE
-routerHome.get('/', async (req, res) => {
-    try {
-        res.status(200).redirect('/static/login');
-    } catch (error) {
-        res.status(400).send({ error: `Error en login: ${error}` });
-    }
-});
-
-//ERROR HANDLING
-routerHome.get("*", (req, res) => {
-    res.status(404).send("Error 404 - Pagina no encontrada");
-});
+routerHome.get('/', getHomepage);
+routerHome.get("*", handleErrors);
 
 export default routerHome;
