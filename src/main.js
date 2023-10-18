@@ -2,13 +2,7 @@ import express from 'express';
 import { app, io } from './config/config.js';
 
 //IMPORT ROUTES
-import routerProd from './routes/products.js';
-import routerCart from './routes/carts.js';
-import routerHome from './routes/homepage.js';
-import routerMessages from './routes/messages.js';
-import routerSession from './routes/sessions.js';
-import routerUser from './routes/users.js';
-import routerHandlebars from './routes/handlebars.js';
+import router from './routes/index.js';
 
 // IMPORT MODELS
 import productModel from './models/products.js';
@@ -100,13 +94,4 @@ io.on('connection', socket => {
 
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
-app.use('/static', routerHandlebars);
-
-
-app.use("/api/products", routerProd)
-app.use("/api/carts", routerCart)
-app.use("/api/messages", routerMessages)
-app.use('/api/users', routerUser)
-app.use('/api/sessions', routerSession)
-
-app.use("/", routerHome) //Este debe ir ultimo porque maneja el Error 404
+app.use("/", router) //Este debe ir ultimo porque maneja el Error 404

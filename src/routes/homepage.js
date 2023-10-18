@@ -13,7 +13,7 @@ routerHome.get('/', async (req, res) => {
 
 //ERROR HANDLING
 routerHome.get("*", (req, res) => {
-    res.status(404).send("Error 404");
+    res.status(404).send("Error 404 - Pagina no encontrada");
 });
 
 export default routerHome;
