@@ -1,5 +1,3 @@
-import userModel from '../models/users.js'
-
 export const registerUser = async (req, res) => {
     try {
         if (!req.user) {
