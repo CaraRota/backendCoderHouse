@@ -1,4 +1,7 @@
 import cartsModel from '../models/carts.js'
+import productsModel from '../models/products.js'
+import userModel from '../models/users.js'
+import { PORT } from '../config/config.js'
 
 //CREATE NEW CART
 export const postCart = async (req, res) => {
@@ -157,3 +160,46 @@ export const modifyCart = async (req, res) => {
         res.status(400).send({ error: `Error al modificar carrito: ${error}` });
     }
 }
+
+//CHECKOUT CART
+export const checkoutCart = async (req, res) => {
+    const { cid } = req.params;
+    try {
+        const cart = await cartsModel.findById(cid);
+
+        if (cart) {
+            const user = await userModel.find({ cart: cart._id });
+            const email = user[0].email;
+            let amount = 0;
+            const purchaseItems = [];
+
+            //Calculate amount and purchase items
+            for (let products in cart.products) {
+                const product = await productsModel.findById(cart.products[products].id_prod);
+
+                //Check stock
+                if (product.stock >= cart.products[products].quantity) {
+                    const price = product.price;
+                    const quantity = cart.products[products].quantity;
+                    amount += price * quantity;
+
+                    //Update stock from database
+                    await productsModel.findByIdAndUpdate(cart.products[products].id_prod, { stock: quantity });
+                    purchaseItems.push({ title: product.title });
+                }
+            }
+
+            //Empty cart
+            await cartsModel.findByIdAndUpdate(cid, { products: [] });
+
+            //Generate ticket
+            res.redirect(
+                `http://localhost:${PORT}/api/tickets/create?amount=${amount}&email=${email}`
+            );
+        } else {
+            res.status(404).send({ resultado: 'Not Found', message: cart });
+        }
+    } catch (error) {
+        res.status(400).send({ error: `Error al consultar carrito: ${error}` });
+    }
+};

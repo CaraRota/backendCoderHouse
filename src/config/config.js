@@ -4,7 +4,7 @@ import { Server } from 'socket.io';
 import 'dotenv/config';
 
 export const app = express();
-const PORT = 8080;
+export const PORT = 8080;
 
 mongoose.connect(process.env.MONGO_DB_URL)
     .then(() => console.log('Conectado a la BDD Mongo'))
