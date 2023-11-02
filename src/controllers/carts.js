@@ -1,7 +1,5 @@
 import cartsModel from '../models/carts.js'
 import productsModel from '../models/products.js'
-import userModel from '../models/users.js'
-import { PORT } from '../config/config.js'
 
 //CREATE NEW CART
 export const postCart = async (req, res) => {
@@ -48,11 +46,23 @@ export const addProductToCart = async (req, res) => {
         const { cid, pid } = req.params;
 
         const cart = await cartsModel.findById(cid);
+        const product = await productsModel.findById(pid);
         const findIndex = cart.products.findIndex(product => product.id_prod._id.equals(pid));
 
+        //Check if product exists in cart
         if (findIndex !== -1) {
+            //Check if stock is enough
+            if (product.stock < cart.products[findIndex].quantity + quantity) {
+                console.log(cart.products[findIndex].quantity)
+                res.status(400).send({ error: `Error al agregar producto al carrito: No hay stock suficiente, solo tenemos ${product.stock} unidad(es) disponible(s)` });
+                return;
+            }
             cart.products[findIndex].quantity += quantity;
         } else {
+            if (product.stock < quantity) {
+                res.status(400).send({ error: `Error al agregar producto al carrito: No hay stock suficiente, solo tenemos ${product.stock} unidad(es) disponible(s)` });
+                return;
+            }
             cart.products.push({ id_prod: pid, quantity: quantity });
         }
 
@@ -168,13 +178,13 @@ export const checkoutCart = async (req, res) => {
         const cart = await cartsModel.findById(cid);
 
         if (cart) {
-            const user = await userModel.find({ cart: cart._id });
-            const email = user[0].email;
+            const email = req.user.email;
             let amount = 0;
             const purchaseItems = [];
 
             //Calculate amount and purchase items
             for (let products in cart.products) {
+
                 const product = await productsModel.findById(cart.products[products].id_prod);
 
                 //Check stock
@@ -184,7 +194,7 @@ export const checkoutCart = async (req, res) => {
                     amount += price * quantity;
 
                     //Update stock from database
-                    await productsModel.findByIdAndUpdate(cart.products[products].id_prod, { stock: quantity });
+                    await productsModel.findByIdAndUpdate(cart.products[products].id_prod, { stock: product.stock - quantity });
                     purchaseItems.push({ title: product.title });
                 }
             }
@@ -194,7 +204,7 @@ export const checkoutCart = async (req, res) => {
 
             //Generate ticket
             res.redirect(
-                `http://localhost:${PORT}/api/tickets/create?amount=${amount}&email=${email}`
+                `/api/tickets/create?amount=${amount}&email=${email}`
             );
         } else {
             res.status(404).send({ resultado: 'Not Found', message: cart });

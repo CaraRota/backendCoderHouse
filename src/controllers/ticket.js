@@ -16,7 +16,18 @@ export const getTickets = async (req, res) => {
 
 export const generateTicket = async (req, res) => {
     const { amount, email } = req.query;
+
     try {
+        //Add condition for purchases which have 0 amount (meaning there's not enough stock of the product)
+        if (amount <= 0) {
+            res.status(400).send({ error: `Error al generar ticket: El monto debe ser mayor a 0` });
+            return;
+        }
+        if (!email) {
+            res.status(400).send({ error: `Error al generar ticket: Debe ingresar un email` });
+            return;
+        };
+
         const code = randomUUID();
         const ticket = {
             code: code,
