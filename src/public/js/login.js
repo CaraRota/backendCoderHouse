@@ -19,8 +19,6 @@ form.addEventListener('submit', (e) => {
     })
         .then(result => result.json())
         .then(response => {
-            console.log('Server Response:', response); // Log the entire response object for debugging
-
             // Adjust your code to handle the actual response structure from the server
             if (response.payload && response.payload._id) {
                 showSuccessMessage('Login successful', 'Acceder')

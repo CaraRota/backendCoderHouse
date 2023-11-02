@@ -36,6 +36,5 @@ logoutBtn.addEventListener('click', () => {
             });
     } catch (error) {
         showErrorMessage('Error al cerrar sesion');
-        console.log(error);
     }
 });

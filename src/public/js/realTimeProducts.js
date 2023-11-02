@@ -10,7 +10,6 @@ form.addEventListener('submit', (e) => {
 
     const dataForm = new FormData(e.target);
     const product = Object.fromEntries(dataForm);
-    console.log(product)
     socket.emit('nuevoProducto', product);
     socket.on('mensajeProductoCreado', (mensaje) => {
         if (mensaje === "Producto creado correctamente") {

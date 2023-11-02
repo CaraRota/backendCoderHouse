@@ -23,46 +23,70 @@ export const sendTicket = async (req, res, { ticket }) => {
             to: purchaser,
             subject: `Ticket de compra en ${storeName}`,
             html: `
-                <html>
-                <head>
-                    <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                            background-color: #f7f7f7;
-                        }
-                        .container {
-                            max-width: 600px;
-                            margin: 0 auto;
-                            padding: 20px;
-                            background-color: #fff;
-                            border-radius: 5px;
-                            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                        }
-                        h1 {
-                            color: #0074D9; /* Blue color */
-                            font-size: 28px;
-                            margin-bottom: 20px;
-                        }
-                        p {
-                            color: #333; /* Darker text color */
-                            font-size: 16px;
-                            line-height: 1.4;
-                        }
-                        strong {
-                            font-weight: bold;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <h1>Ticket de compra</h1>
-                        <p>Gracias por su compra en ${storeName}.</p>
-                        <p><strong>Código de Ticket:</strong> ${code}</p>
-                        <p><strong>Monto de Compra:</strong> $${amount}</p>
-                        <p><strong>Fecha y Hora de Compra:</strong> ${purchase_datetime}</p>
-                    </div>
-                </body>
-                </html>
+            <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        .code {
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .amount {
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        .datetime {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ticket de compra</h1>
+        <p>Gracias por su compra en <span class="storeName">${storeName}</span>.</p>
+        <p><strong>Código de Ticket:</strong> <span class="code">${code}</span></p>
+        <p><strong>Monto de Compra:</strong> <span class="amount">$${amount}</span></p>
+        <p><strong>Fecha y Hora de Compra:</strong> <span class="datetime">${purchase_datetime}</span></p>
+    </div>
+</body>
+</html>
             `,
         };
 

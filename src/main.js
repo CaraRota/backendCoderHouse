@@ -52,7 +52,6 @@ io.on('connection', socket => {
     });
 
     socket.on('nuevoProducto', async (product) => {
-        console.log(product);
         try {
             const addProd = await productModel.create(product);
             if (addProd) {

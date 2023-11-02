@@ -53,7 +53,6 @@ export const addProductToCart = async (req, res) => {
         if (findIndex !== -1) {
             //Check if stock is enough
             if (product.stock < cart.products[findIndex].quantity + quantity) {
-                console.log(cart.products[findIndex].quantity)
                 res.status(400).send({ error: `Error al agregar producto al carrito: No hay stock suficiente, solo tenemos ${product.stock} unidad(es) disponible(s)` });
                 return;
             }
