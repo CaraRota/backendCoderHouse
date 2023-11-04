@@ -7,6 +7,7 @@ import routerSession from "./sessions.js";
 import routerUser from "./users.js";
 import routerTicket from "./ticket.js";
 import routerHandlebars from './handlebars.js'
+import routerMockingProducts from './mockingProducts.js'
 
 const router = Router()
 
@@ -17,6 +18,7 @@ router.use("/api/messages", routerMessages)
 router.use('/api/users', routerUser)
 router.use('/api/sessions', routerSession)
 router.use('/api/tickets', routerTicket)
+router.use('/mockingproducts', routerMockingProducts)
 
 router.use("/", routerHome) //Este debe ir ultimo porque maneja el Error 404
 
