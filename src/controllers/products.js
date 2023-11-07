@@ -41,7 +41,7 @@ export const getProductById = async (req, res) => {
 //POST A NEW PRODUCT
 export const postProduct = async (req, res) => {
     const { title, description, price, stock, code, category, status } = req.body;
-    
+
     try {
         if (!title || !description || !price || !stock || !code || !category) {
             CustomError.createError({
@@ -50,6 +50,7 @@ export const postProduct = async (req, res) => {
                 message: "One or more properties were incomplete or not valid.",
                 code: EErrors.INVALID_PRODUCT_ERROR
             })
+            return;
         }
 
         const respuesta = await ProductModel.create({
