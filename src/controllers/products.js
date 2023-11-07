@@ -40,7 +40,8 @@ export const getProductById = async (req, res) => {
 
 //POST A NEW PRODUCT
 export const postProduct = async (req, res) => {
-    const { title, description, price, stock, code, category } = req.body;
+    const { title, description, price, stock, code, category, status } = req.body;
+    
     try {
         if (!title || !description || !price || !stock || !code || !category) {
             CustomError.createError({

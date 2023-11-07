@@ -19,6 +19,8 @@ import passport from 'passport';
 import initializePassport from './config/passport.js';
 import 'dotenv/config'
 
+import errorHandler from './utils/errorHandler.js';
+
 
 //Middlewares
 app.use(express.json());
@@ -41,6 +43,7 @@ app.use(session({
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(errorHandler);
 
 //Conexion Socket
 io.on('connection', socket => {
