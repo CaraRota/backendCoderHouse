@@ -1,6 +1,20 @@
 import { generateToken } from "../utils/jwt.js";
 
+//Error handling
+import CustomError from '../services/errors/customError.js';
+import EErrors from '../services/errors/enums.js';
+import { generateUserErrorInfo } from "../services/errors/info.js";
+
 export const register = async (req, res) => {
+    const { first_name, last_name, email } = req.body
+
+    if (!last_name || !first_name || !email) {
+        CustomError.createError({
+            name: "User creation error",
+            message: generateUserErrorInfo({ first_name, last_name, email }),
+            code: EErrors.INVALID_TYPES_ERROR
+        })
+    }
     try {
         if (!req.user) {
             res.status(401).send({ error: `Error al registrar usuario` });
@@ -24,7 +38,7 @@ export const login = async (req, res) => {
         if (!req.user) {
             return res.status(401).send({ mensaje: "Invalidate user" })
         }
-        
+
         req.session.user = {
             first_name: req.user.first_name,
             last_name: req.user.last_name,
