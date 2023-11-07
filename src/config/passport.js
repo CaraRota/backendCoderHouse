@@ -43,15 +43,15 @@ const initializePassport = () => {
             //Defino como voy a registrar un user
             const { first_name, last_name, email, age } = req.body
 
-            if (!last_name || !first_name || !email) {
-                CustomError.createError({
-                    name: "User creation error",
-                    message: generateUserErrorInfo({ first_name, last_name, email }),
-                    code: EErrors.INVALID_TYPES_ERROR
-                })
-            }
-
             try {
+                if (!last_name || !first_name || !email) {
+                    CustomError.createError({
+                        name: "User creation error",
+                        cause: generateUserErrorInfo({ first_name, last_name, email }),
+                        message: "One or more properties were incomplete or not valid.",
+                        code: EErrors.INVALID_USER_ERROR
+                    })
+                }
                 const user = await userModel.findOne({ email: email })
                 if (user) {
                     //done es como si fuera un return de un callback

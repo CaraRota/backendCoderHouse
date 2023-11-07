@@ -2,8 +2,6 @@ import { Router } from "express";
 import passport from "passport";
 import { currentJWTUser, githubSessions, login, logout, register, registerGithub } from "../controllers/sessions.js";
 import { passportError, authorization } from "../utils/messageErrors.js";
-import UserErrorMiddleware from "../utils/userError.js";
-
 import 'dotenv/config'
 
 const routerSession = Router();
