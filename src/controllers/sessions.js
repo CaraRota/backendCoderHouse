@@ -1,20 +1,6 @@
 import { generateToken } from "../utils/jwt.js";
 
-//Error handling
-import CustomError from '../services/errors/customError.js';
-import EErrors from '../services/errors/enums.js';
-import { generateUserErrorInfo } from "../services/errors/info.js";
-
-export const register = async (req, res) => {
-    const { first_name, last_name, email } = req.body
-
-    if (!last_name || !first_name || !email) {
-        CustomError.createError({
-            name: "User creation error",
-            message: generateUserErrorInfo({ first_name, last_name, email }),
-            code: EErrors.INVALID_TYPES_ERROR
-        })
-    }
+export const register = async (req, res) => {    
     try {
         if (!req.user) {
             res.status(401).send({ error: `Error al registrar usuario` });

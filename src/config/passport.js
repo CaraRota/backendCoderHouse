@@ -6,6 +6,11 @@ import { createHash, validatePassword } from '../utils/bcrypt.js'
 import userModel from '../models/users.js'
 import 'dotenv/config'
 
+//Error handling
+import CustomError from '../services/errors/customError.js';
+import EErrors from '../services/errors/enums.js';
+import { generateUserErrorInfo } from "../services/errors/info.js";
+
 //Defino la estrategia a utilizar
 const LocalStrategy = local.Strategy
 const JWTStrategy = jwt.Strategy
@@ -37,6 +42,14 @@ const initializePassport = () => {
         { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
             //Defino como voy a registrar un user
             const { first_name, last_name, email, age } = req.body
+
+            if (!last_name || !first_name || !email) {
+                CustomError.createError({
+                    name: "User creation error",
+                    message: generateUserErrorInfo({ first_name, last_name, email }),
+                    code: EErrors.INVALID_TYPES_ERROR
+                })
+            }
 
             try {
                 const user = await userModel.findOne({ email: email })

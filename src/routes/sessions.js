@@ -8,7 +8,7 @@ import 'dotenv/config'
 
 const routerSession = Router();
 
-routerSession.post('/register', passport.authenticate('register'), UserErrorMiddleware, register);
+routerSession.post('/register', passport.authenticate('register'), register);
 routerSession.post('/login', passport.authenticate('login'), login);
 routerSession.get('/current', passportError('jwt'), authorization('user'), currentJWTUser);
 routerSession.get('/github', passport.authenticate('github', { scope: ['user:email'] }), registerGithub);
