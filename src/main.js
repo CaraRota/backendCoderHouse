@@ -43,17 +43,16 @@ app.use(session({
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(errorHandler);
 
 //Conexion Socket
 io.on('connection', socket => {
     console.log('Conexión con Socket.io');
-
+    
     socket.on('getProducts', async () => {
         const products = await productModel.find();
         socket.emit('productos', products);
     });
-
+    
     socket.on('nuevoProducto', async (product) => {
         try {
             const addProd = await productModel.create(product);
@@ -68,7 +67,7 @@ io.on('connection', socket => {
             console.error(error);
         }
     });
-
+    
     socket.on('eliminarProducto', async (id) => {
         const delProd = await productModel.findByIdAndDelete(id);
         if (delProd) {
@@ -87,7 +86,7 @@ io.on('connection', socket => {
         });
         io.sockets.emit('mensajes', data);
     });
-
+    
     socket.on('getMessages', async () => {
         const messages = await messagesModel.find();
         socket.emit('all-messages', messages);
@@ -97,3 +96,4 @@ io.on('connection', socket => {
 //Routes
 app.use("/static", express.static(path.join(__dirname, "/public")));
 app.use("/", router) //Este debe ir ultimo porque maneja el Error 404
+app.use(errorHandler);

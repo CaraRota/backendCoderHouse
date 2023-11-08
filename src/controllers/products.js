@@ -1,10 +1,5 @@
 import ProductModel from "../models/products.js";
 
-//Error handling
-import CustomError from '../services/errors/customError.js';
-import EErrors from '../services/errors/enums.js';
-import { generateProductErrorInfo } from "../services/errors/info.js";
-
 //READ ALL PRODUCTS
 export const getProducts = async (req, res) => {
     const { limit, page, sort, category, status } = req.query;
@@ -43,16 +38,6 @@ export const postProduct = async (req, res) => {
     const { title, description, price, stock, code, category, status } = req.body;
 
     try {
-        if (!title || !description || !price || !stock || !code || !category) {
-            CustomError.createError({
-                name: "Product creation error",
-                cause: generateProductErrorInfo({ title, description, price, stock, code, category }),
-                message: "One or more properties were incomplete or not valid.",
-                code: EErrors.INVALID_PRODUCT_ERROR
-            })
-            return;
-        }
-
         const respuesta = await ProductModel.create({
             title,
             description,
