@@ -1,0 +1,6 @@
+{"level":"fatal","message":"Esto es un logger de fatal","timestamp":"2023-11-11T17:33:32.856Z"}
+{"level":"error","message":"Esto es un logger de error","timestamp":"2023-11-11T17:33:32.858Z"}
+{"level":"warn","message":"Esto es un logger de warn","timestamp":"2023-11-11T17:33:32.858Z"}
+{"level":"fatal","message":"Server listening on port 8080","timestamp":"2023-11-11T17:34:49.696Z"}
+{"level":"error","message":"\n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * first_name: needs to be a String, received Pepe\n    * last_name: needs to be a String, received undefined\n    * email: needs to be a String, received pe12333pe@pepe.com\n    ","timestamp":"2023-11-11T17:37:33.678Z"}
+{"level":"error","message":"\n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * name: needs to be a String, received Arroz\n    * description: needs to be a String, received undefined\n    * price: needs to be a Number, received undefined\n    * stock: needs to be a Number, received undefined\n    * code: needs to be a String, received undefined\n    * category: needs to be a String, received undefined\n    ","timestamp":"2023-11-11T17:37:44.092Z"}

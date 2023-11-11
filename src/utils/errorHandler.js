@@ -1,8 +1,11 @@
 //Error handling
 import EErrors from '../services/errors/enums.js';
 
+//IMPORT LOGGER
+import logger from './loggers.js';
+
 export default (error, req, res, next) => {
-    console.log(error.cause)
+    logger.error(error.cause)
     switch (error.code) {
         case EErrors.INVALID_USER_ERROR:
             res.status(400).send({ status: "error", error: error.message });

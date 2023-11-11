@@ -19,7 +19,11 @@ import passport from 'passport';
 import initializePassport from './config/passport.js';
 import 'dotenv/config'
 
+//ERROR HANDLER
 import errorHandler from './utils/errorHandler.js';
+
+//LOGGER
+import logger from './utils/loggers.js';
 
 
 //Middlewares
@@ -46,7 +50,7 @@ app.use(passport.session())
 
 //Conexion Socket
 io.on('connection', socket => {
-    console.log('Conexión con Socket.io');
+    logger.info('Conexión con Socket.io');
     
     socket.on('getProducts', async () => {
         const products = await productModel.find();
