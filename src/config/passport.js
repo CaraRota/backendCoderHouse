@@ -6,6 +6,9 @@ import { createHash, validatePassword } from '../utils/bcrypt.js'
 import userModel from '../models/users.js'
 import 'dotenv/config'
 
+//IMPORT LOGGER
+import logger from '../utils/loggers.js'
+
 //Defino la estrategia a utilizar
 const LocalStrategy = local.Strategy
 const JWTStrategy = jwt.Strategy
@@ -29,6 +32,7 @@ const initializePassport = () => {
             }
             return done(null, user)
         } catch (error) {
+            logger.error(error)
             return done(error)
         }
     }))
@@ -42,6 +46,7 @@ const initializePassport = () => {
                 const user = await userModel.findOne({ email: email })
                 if (user) {
                     //done es como si fuera un return de un callback
+                    logger.info('User already exists')
                     return done(null, false)
                 }
                 const passwordHash = createHash(password)
@@ -52,8 +57,10 @@ const initializePassport = () => {
                     age: age,
                     password: passwordHash
                 })
+                logger.info('User created')
                 return done(null, userCreated)
             } catch (error) {
+                logger.error(error)
                 return done(error)
             }
         }
@@ -63,13 +70,16 @@ const initializePassport = () => {
         try {
             const user = await userModel.findOne({ email: username })
             if (!user) {
+                logger.info('User not found')
                 return done(null, false)
             }
             if (validatePassword(password, user.password)) {
+                logger.info('User and password are valid')
                 return done(null, user) //Usuario y contraseña validos
             }
             return done(null, false) //Contraseña no valida
         } catch (error) {
+            logger.error(error)
             return done(error)
         }
     }))
@@ -92,13 +102,16 @@ const initializePassport = () => {
                     age: 18, //Edad por defecto,
                     password: hashPassword,
                 })
+                logger.info('User created')
                 done(null, userCreated)
 
             } else {
+                logger.info('User already exists')
                 done(null, user)
             }
 
         } catch (error) {
+            logger.error(error)
             done(error)
         }
     }))

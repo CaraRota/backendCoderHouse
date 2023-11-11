@@ -8,4 +8,3 @@ routerTicket.get('/', passport.authenticate('jwt', { session: false }), getTicke
 routerTicket.get('/create', passport.authenticate('jwt', { session: false }), generateTicket);
 
 export default routerTicket;
-

@@ -1,4 +1,5 @@
 import { generateToken } from "../utils/jwt.js";
+import logger from "../utils/loggers.js";
 
 export const register = async (req, res) => {    
     try {
@@ -15,6 +16,7 @@ export const register = async (req, res) => {
         res.status(200).send({ payload: req.user })
     }
     catch (error) {
+        logger.error(`Error al registrar usuario: ${error}`);
         res.status(500).send({ mensaje: `Error al registrar usuario ${error}` });
     }
 }
@@ -37,6 +39,7 @@ export const login = async (req, res) => {
         })
         res.status(200).send({ payload: req.user })
     } catch (error) {
+        logger.error(`Error al iniciar sesion: ${error}`);
         res.status(500).send({ mensaje: `Error al iniciar sesion ${error}` })
     }
 }

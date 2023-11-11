@@ -2,6 +2,7 @@ import ticketModel from '../models/ticket.js';
 import 'dotenv/config'
 import { randomUUID } from 'crypto';
 import { sendTicket } from './email.js';
+import logger from '../utils/loggers.js';
 
 export const getTickets = async (req, res) => {
     try {
@@ -40,6 +41,7 @@ export const generateTicket = async (req, res) => {
             ticket
         });
     } catch (error) {
+        logger.error(`Error al generar ticket: ${error}`);
         res.status(400).send({ error: `Error al generar ticket: ${error}` });
     }
 }
