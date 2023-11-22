@@ -1,6 +1,8 @@
 import crypto from 'crypto';
 import { sendRecoveryEmail } from '../config/nodemailer.js';
 import logger from '../utils/loggers.js';
+import UserModel from '../models/users.js';
+import { createHash, validatePassword } from '../utils/bcrypt.js';
 
 export const registerUser = async (req, res) => {
     try {
@@ -20,13 +22,19 @@ export const passwordRecovery = async (req, res) => {
 
     try {
         //Verificacion de usuario existente
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            logger.error(`Usuario no encontrado: ${email}`);
+            return res.status(400).send({ error: `Usuario no encontrado: ${email}` });
+        }
+
+        //Generacion de token
         const token = crypto.randomBytes(20).toString('hex');
         recoveryLinks[token] = { email, timestamp: Date.now() };
 
+        //Envio de email
         const recoveryLink = `http://localhost:8080/api/users/reset-password/${token}`;
-
         sendRecoveryEmail(email, recoveryLink);
-        logger.info(`Email enviado a ${email}`);
         res.status(200).send({ resultado: 'OK', message: 'Email enviado correctamente' });
     } catch (error) {
         logger.error(`Error al enviar email: ${error}`);
@@ -36,34 +44,53 @@ export const passwordRecovery = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
     const { token } = req.params;
-    const { newPassword, oldPassword } = req.body;
+    const { newPassword } = req.body;
 
     try {
         const linkData = recoveryLinks[token];
         if (!linkData) {
             logger.error(`Token no encontrado: ${token}`);
-            res.status(400).send({ error: `Token no encontrado: ${token}` });
-        } else {
-            const now = Date.now();
-            const tokenTimestamp = linkData.timestamp;
-            const tokenAge = now - tokenTimestamp;
-            if (tokenAge > 3600000) {
-                logger.error(`Token expirado: ${token}`);
-                res.status(400).send({ error: `Token expirado: ${token}` });
-            } else {
-                const { email } = linkData;
-                //Modify password
+            return res.status(400).send({ error: `Token no encontrado: ${token}` });
+        }
 
-                //Check if 
+        const now = Date.now();
+        const tokenTimestamp = linkData.timestamp;
+        const tokenAge = now - tokenTimestamp;
+        if (tokenAge > 3600000) {
+            logger.error(`Token expirado: ${token}`);
+            return res.status(400).send({ error: `Token expirado: ${token}` });
+        }
 
-                //Delete token
-                delete recoveryLinks[token];
-                logger.info(`Password actualizado correctamente para el usuario ${email}`);
-                res.status(200).send({ resultado: 'OK', message: 'Password actualizado correctamente' });
+        const { email } = linkData;
+
+        try {
+            const user = await UserModel.findOne({ email });
+            if (!user) {
+                logger.error(`Usuario no encontrado: ${email}`);
+                return res.status(400).send({ error: `Usuario no encontrado: ${email}` });
             }
+
+            // Check if new password === password in database
+            const isSamePassword = validatePassword(newPassword, user.password);
+            if (isSamePassword) {
+                logger.error(`La nueva contraseña no puede ser igual a la anterior`);
+                return res.status(400).send({ error: `La nueva contraseña no puede ser igual a la anterior` });
+            }
+
+            // Update the user's password in the database
+            user.password = createHash(newPassword);
+            await user.save();
+
+            // Delete token
+            delete recoveryLinks[token];
+            logger.info(`Password actualizado correctamente para el usuario ${email}`);
+            return res.status(200).send({ resultado: 'OK', message: 'Password actualizado correctamente' });
+        } catch (error) {
+            logger.error(`Error al modificar contraseña: ${error}`);
+            return res.status(500).send({ error: `Error al modificar contraseña: ${error}` });
         }
     } catch (error) {
         logger.error(`Error al actualizar password: ${error}`);
-        res.status(500).send({ error: `Error al actualizar password: ${error}` });
+        return res.status(500).send({ error: `Error al actualizar password: ${error}` });
     }
 }
