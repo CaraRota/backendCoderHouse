@@ -1,4 +1,4 @@
-import { loggers } from 'winston';
+import logger from '../utils/loggers.js';
 import nodeMailer from 'nodemailer';
 import 'dotenv/config';
 
@@ -104,10 +104,10 @@ export const sendRecoveryEmail = async (email, recoveryLink) => {
 
     try {
         await transporter.sendMail(mailOptions);
-        loggers.info(`Email sent to ${email}`);
+        logger.info(`Email enviado a ${email}`);
         return true;
     } catch (error) {
-        loggers.error(`Error sending email to ${email}`);
+        logger.error(`Error al enviar email: ${error}`);
         return false;
     }
 }
@@ -195,15 +195,15 @@ export const sendTicket = async (req, res, { ticket }) => {
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                loggers.error(`Error al enviar ticket: ${error}`);
+                logger.error(`Error al enviar ticket: ${error}`);
                 res.status(400).send({ error: `Error al enviar ticket: ${error}` });
             } else {
-                loggers.info(`Ticket enviado: ${info}`);
+                logger.info(`Ticket enviado a ${purchaser}`);
                 res.status(200).send({ resultado: 'OK', message: info });
             }
         });
     } catch (error) {
-        loggers.error(`Error al enviar ticket: ${error}`);
+        logger.error(`Error al enviar ticket: ${error}`);
         res.status(400).send({ error: `Error al enviar ticket: ${error}` });
     }
 }
