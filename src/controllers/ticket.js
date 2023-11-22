@@ -1,7 +1,7 @@
 import ticketModel from '../models/ticket.js';
 import 'dotenv/config'
 import { randomUUID } from 'crypto';
-import { sendTicket } from './email.js';
+import { sendTicket } from '../config/nodemailer.js';
 import logger from '../utils/loggers.js';
 
 export const getTickets = async (req, res) => {
