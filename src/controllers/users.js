@@ -77,7 +77,7 @@ export const resetPassword = async (req, res) => {
                 return res.status(400).send({ error: `La nueva contraseña no puede ser igual a la anterior` });
             }
 
-            // Update the user's password in the database
+            // Update the users password in the database
             user.password = createHash(newPassword);
             await user.save();
 

@@ -1,5 +1,6 @@
 import cartsModel from '../models/carts.js'
 import productsModel from '../models/products.js'
+import userModel from '../models/users.js';
 
 //CREATE NEW CART
 export const postCart = async (req, res) => {
@@ -188,9 +189,16 @@ export const checkoutCart = async (req, res) => {
 
                 //Check stock
                 if (product.stock >= cart.products[products].quantity) {
+
                     const price = product.price;
                     const quantity = cart.products[products].quantity;
-                    amount += price * quantity;
+
+                    //Calculate amount depending on user role
+                    if (userModel.role === 'premium') {
+                        amount += price * quantity * 0.8;
+                    } else {
+                        amount += price * quantity;
+                    }
 
                     //Update stock from database
                     await productsModel.findByIdAndUpdate(cart.products[products].id_prod, { stock: product.stock - quantity });
