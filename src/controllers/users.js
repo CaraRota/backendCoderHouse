@@ -3,6 +3,7 @@ import { sendRecoveryEmail } from '../config/nodemailer.js';
 import logger from '../utils/loggers.js';
 import UserModel from '../models/users.js';
 import { createHash, validatePassword } from '../utils/bcrypt.js';
+import 'dotenv/config'
 
 export const registerUser = async (req, res) => {
     try {
@@ -33,7 +34,7 @@ export const passwordRecovery = async (req, res) => {
         recoveryLinks[token] = { email, timestamp: Date.now() };
 
         //Envio de email
-        const recoveryLink = `http://localhost:8080/api/users/reset-password/${token}`;
+        const recoveryLink = `${process.env.RECOVERY_URL}${token}`;
         sendRecoveryEmail(email, recoveryLink);
         res.status(200).send({ resultado: 'OK', message: 'Email enviado correctamente' });
     } catch (error) {
@@ -56,7 +57,8 @@ export const resetPassword = async (req, res) => {
         const now = Date.now();
         const tokenTimestamp = linkData.timestamp;
         const tokenAge = now - tokenTimestamp;
-        if (tokenAge > 3600000) {
+
+        if (tokenAge > process.env.TOKEN_EXPIRATION_TIME) {
             logger.error(`Token expirado: ${token}`);
             return res.status(400).send({ error: `Token expirado: ${token}` });
         }

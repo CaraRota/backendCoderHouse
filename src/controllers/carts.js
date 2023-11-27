@@ -1,6 +1,7 @@
 import cartsModel from '../models/carts.js'
 import productsModel from '../models/products.js'
 import userModel from '../models/users.js';
+import 'dotenv/config'
 
 //CREATE NEW CART
 export const postCart = async (req, res) => {
@@ -195,7 +196,7 @@ export const checkoutCart = async (req, res) => {
 
                     //Calculate amount depending on user role
                     if (userModel.role === 'premium') {
-                        amount += price * quantity * 0.8;
+                        amount += price * quantity * process.env.PREMIUM_DISCOUNT;
                     } else {
                         amount += price * quantity;
                     }

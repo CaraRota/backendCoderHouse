@@ -11,3 +11,10 @@
 {"level":"error","message":"Error al modificar contraseña: TypeError: user.validatePassword is not a function","timestamp":"2023-11-22T17:44:17.796Z"}
 {"level":"error","message":"Token no encontrado: 6066a2287262853b0c69fbdd54e2c47f3915bb4d","timestamp":"2023-11-22T17:46:49.011Z"}
 {"level":"error","message":"La nueva contraseña no puede ser igual a la anterior","timestamp":"2023-11-22T17:49:25.910Z"}
+{"level":"error","message":"Error al enviar email: Error: Missing credentials for \"PLAIN\"","timestamp":"2023-11-27T20:17:01.786Z"}
+{"level":"error","message":"Error al enviar email: Error: Missing credentials for \"PLAIN\"","timestamp":"2023-11-27T20:33:35.365Z"}
+{"level":"error","message":"Error al enviar email: Error: Missing credentials for \"PLAIN\"","timestamp":"2023-11-27T20:33:39.963Z"}
+{"level":"error","message":"Error al enviar email: Error: Missing credentials for \"PLAIN\"","timestamp":"2023-11-27T20:34:22.873Z"}
+{"level":"error","message":"Error al enviar email: Error: Missing credentials for \"PLAIN\"","timestamp":"2023-11-27T20:34:52.478Z"}
+{"level":"error","message":"Token no encontrado: 6b22139806f9e0a7e2c95d4856d3bba6278d15db","timestamp":"2023-11-27T20:40:14.124Z"}
+{"level":"error","message":"La nueva contraseña no puede ser igual a la anterior","timestamp":"2023-11-27T20:42:16.466Z"}
