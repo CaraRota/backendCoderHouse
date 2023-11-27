@@ -1,6 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
+import { __dirname } from '../path.js';
 import 'dotenv/config';
 
 //IMPORT LOGGER
@@ -17,5 +20,20 @@ mongoose.connect(process.env.MONGO_DB_URL)
 export const server = app.listen(PORT, async () => {
     logger.info(`Server listening on port ${PORT}`);
 });
+
+//SWAGGER CONFIGURATION
+const swaggerOptions = {
+    definition: {
+        openapi: '3.1.0',
+        info: {
+            title: 'Tienda Online API Docs',
+            decription: 'API of Tienda Online App',
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 export const io = new Server(server);
