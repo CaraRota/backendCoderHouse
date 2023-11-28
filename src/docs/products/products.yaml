@@ -1,7 +1,7 @@
 paths:
   /api/products/:
     get:
-      summary: Obtener a todos los products
+      summary: Obtener todos los products
       tags:
         - Products
       responses:
@@ -16,7 +16,7 @@ paths:
         "400":
           description: Error al consultar productos
     post:
-      summary: Crear un producto
+      summary: Crear un producto nuevo
       tags:
         - Products
       requestBody:
@@ -39,7 +39,7 @@ paths:
           description: User no tiene los privilegios necesarios
   /api/products/{id}:
     get:
-      summary: Obtener a un producto por id
+      summary: Obtener un producto por id
       tags:
         - Products
       parameters:
