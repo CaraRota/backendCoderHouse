@@ -25,8 +25,8 @@ const swaggerOptions = {
     definition: {
         openapi: '3.1.0',
         info: {
-            title: 'Tienda Online API Docs',
-            decription: 'API of Tienda Online App',
+            title: 'Tienda Online - API Docs',
+            description: 'Official documentation for the Online Store API',
         }
     },
     apis: [`${__dirname}/docs/**/*.yaml`]

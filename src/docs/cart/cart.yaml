@@ -264,6 +264,7 @@ paths:
           description: User no tiene los privilegios necesarios
         "404":
           description: Carrito no encontrado
+
 components:
   schemas:
     Carts:
