@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteProduct, getProductById, getProducts, postProduct } from "../controllers/products.js";
+import { deleteProduct, getProductById, getProducts, postProduct, putProduct } from "../controllers/products.js";
 import { passportError, authorization } from "../utils/messageErrors.js";
 
 //Error handling
@@ -10,7 +10,6 @@ import { generateProductErrorInfo } from "../services/errors/info.js";
 const routerProd = Router();
 
 routerProd.get('/', getProducts);
-routerProd.get('/:pid', getProductById);
 routerProd.post('/', (req, res, next) => {
     const { title, description, price, stock, code, category } = req.body;
     try {
@@ -27,7 +26,8 @@ routerProd.post('/', (req, res, next) => {
         next(error);
     }
 }, passportError('jwt'), authorization(['admin']), postProduct);
-routerProd.put('/:pid', passportError('jwt'), authorization(['admin']), postProduct);
+routerProd.get('/:pid', getProductById);
+routerProd.put('/:pid', passportError('jwt'), authorization(['admin']), putProduct);
 routerProd.delete('/:pid', passportError('jwt'), authorization(['admin']), deleteProduct);
 
 export default routerProd;

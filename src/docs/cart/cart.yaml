@@ -1,0 +1,7 @@
+paths:
+  /api/carts/:
+    get:
+      tags:
+        - Cart
+      summary: Get all carts
+      description: Get all carts

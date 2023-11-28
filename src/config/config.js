@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUiExpress from 'swagger-ui-express';
 import { __dirname } from '../path.js';
 import 'dotenv/config';
 
@@ -33,7 +32,5 @@ const swaggerOptions = {
     apis: [`${__dirname}/docs/**/*.yaml`]
 }
 
-const specs = swaggerJSDoc(swaggerOptions)
-app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
-
+export const specs = swaggerJSDoc(swaggerOptions)
 export const io = new Server(server);

@@ -9,6 +9,8 @@ import routerTicket from "./ticket.js";
 import routerHandlebars from './handlebars.js'
 import routerMockingProducts from './mockingProducts.js'
 import routerLoggerTest from './loggersTest.js'
+import swaggerUiExpress from 'swagger-ui-express';
+import { specs } from "../config/config.js";
 
 const router = Router()
 
@@ -21,6 +23,7 @@ router.use('/api/sessions', routerSession)
 router.use('/api/tickets', routerTicket)
 router.use('/api/mockingproducts', routerMockingProducts)
 router.use("/api/loggerTest", routerLoggerTest)
+router.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 router.use("/", routerHome) //Este debe ir ultimo porque maneja el Error 404
 
