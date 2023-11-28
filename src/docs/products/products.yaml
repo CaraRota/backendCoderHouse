@@ -41,7 +41,7 @@ paths:
     get:
       summary: Obtener un producto por id
       tags:
-        - Products
+        - Products by ID
       parameters:
         - in: path
           name: id
