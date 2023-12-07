@@ -9,7 +9,7 @@ import 'dotenv/config';
 import logger from '../utils/loggers.js';
 
 export const app = express();
-export const PORT = 8080;
+export const PORT = process.env.APP_PORT;
 
 mongoose.connect(process.env.MONGO_DB_URL)
     .then(() => logger.info('Conectado a la BDD Mongo'))

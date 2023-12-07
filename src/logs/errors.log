@@ -18,3 +18,19 @@
 {"level":"error","message":"Error al enviar email: Error: Missing credentials for \"PLAIN\"","timestamp":"2023-11-27T20:34:52.478Z"}
 {"level":"error","message":"Token no encontrado: 6b22139806f9e0a7e2c95d4856d3bba6278d15db","timestamp":"2023-11-27T20:40:14.124Z"}
 {"level":"error","message":"La nueva contraseña no puede ser igual a la anterior","timestamp":"2023-11-27T20:42:16.466Z"}
+{"level":"error","message":"Error al conectar a la BDD Mongo (test mode): MongooseError: The `uri` parameter to `openUri()` must be a string, got \"object\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2023-12-07T12:50:04.296Z"}
+{"level":"error","message":"Error al conectar a la BDD Mongo (test mode): MongooseError: The `uri` parameter to `openUri()` must be a string, got \"object\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.","timestamp":"2023-12-07T12:50:31.963Z"}
+{"level":"error","timestamp":"2023-12-07T14:43:11.335Z"}
+{"level":"error","timestamp":"2023-12-07T14:43:11.338Z"}
+{"level":"error","message":"Login error: jwt.sign is not a function","stack":"TypeError: jwt.sign is not a function\n    at Strategy._verify (file:///C:/Users/Sebastian/Desktop/githubClones/backendCoderHouse/src/config/passport.js:80:35)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2023-12-07T14:51:21.062Z"}
+{"level":"error","timestamp":"2023-12-07T14:51:21.064Z"}
+{"level":"error","message":"Login error: jwt.sign is not a function","stack":"TypeError: jwt.sign is not a function\n    at Strategy._verify (file:///C:/Users/Sebastian/Desktop/githubClones/backendCoderHouse/src/config/passport.js:80:35)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2023-12-07T14:52:34.055Z"}
+{"level":"error","timestamp":"2023-12-07T14:52:34.057Z"}
+{"level":"error","message":"\n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * name: needs to be a String, received undefined\n    * description: needs to be a String, received undefined\n    * price: needs to be a Number, received undefined\n    * stock: needs to be a Number, received undefined\n    * code: needs to be a String, received undefined\n    * category: needs to be a String, received undefined\n    ","timestamp":"2023-12-07T15:05:22.118Z"}{"level":"error","timestamp":"2023-12-07T16:55:38.239Z"}
+{"level":"error","timestamp":"2023-12-07T16:55:38.241Z"}
+{"level":"error","timestamp":"2023-12-07T16:57:12.939Z"}
+{"level":"error","timestamp":"2023-12-07T16:57:12.941Z"}
+{"level":"error","timestamp":"2023-12-07T16:58:11.957Z"}
+{"level":"error","timestamp":"2023-12-07T16:58:11.959Z"}
+{"level":"error","timestamp":"2023-12-07T17:02:42.418Z"}
+{"level":"error","timestamp":"2023-12-07T17:02:42.420Z"}
