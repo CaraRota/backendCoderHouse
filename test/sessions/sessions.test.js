@@ -5,10 +5,11 @@ import supertest from "supertest";
 import logger from "../../src/utils/loggers.js";
 import 'dotenv/config';
 
-import SessionModel from "../../src/models/users.js"
-
 const expect = chai.expect;
 const requester = supertest(process.env.APP_URL + process.env.APP_PORT);
+
+//Model
+import SessionModel from "../../src/models/users.js"
 
 await mongoose.connect(process.env.MONGO_DB_URL)
     .then(() => logger.info('Conectado a la BDD Mongo (test mode)'))
