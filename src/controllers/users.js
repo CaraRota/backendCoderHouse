@@ -96,3 +96,21 @@ export const resetPassword = async (req, res) => {
         return res.status(500).send({ error: `Error al actualizar password: ${error}` });
     }
 }
+
+export const deleteUser = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await UserModel.findByIdAndDelete(id);
+        if (!user) {
+            logger.error(`Usuario no encontrado: ${id}`);
+            return res.status(400).send({ error: `Usuario no encontrado: ${id}` });
+        }
+
+        logger.info(`Usuario eliminado correctamente: ${id}`);
+        return res.status(200).send({ resultado: 'OK', message: 'Usuario eliminado correctamente' });
+    } catch (error) {
+        logger.error(`Error al eliminar usuario: ${error}`);
+        return res.status(500).send({ error: `Error al eliminar usuario: ${error}` });
+    }
+}
