@@ -22,7 +22,7 @@ describe('Testing de productos en Tienda Online', function () {
     before(async function () {
         this.timeout(7000);
         getProductCreated = await ProductModel.findOne({ code: "a04s" });
-        const response = await requester.post('/api/sessions/login')
+        const response = await requester.post('/api/session/login')
             .send({
                 email: process.env.ADMIN_EMAIL,
                 password: process.env.ADMIN_PASSWORD

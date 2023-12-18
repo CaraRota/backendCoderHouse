@@ -10,7 +10,7 @@ form.addEventListener('submit', (e) => {
     const obj = {};
 
     dataForm.forEach((value, key) => obj[key] = value);
-    fetch('/api/sessions/login', {
+    fetch('/api/session/login', {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: {

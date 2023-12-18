@@ -7,7 +7,7 @@
     "dev": "nodemon src/main.js",
     "testProducts": "mocha test/products/products.test.js",
     "testCarts": "mocha test/carts/carts.test.js",
-    "testSessions": "mocha test/sessions/sessions.test.js"
+    "testSession": "mocha test/session/session.test.js"
   },
   "keywords": [],
   "author": "",

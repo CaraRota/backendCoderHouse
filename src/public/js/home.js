@@ -24,7 +24,7 @@ const logoutBtn = document.getElementById('logoutBtn');
 
 logoutBtn.addEventListener('click', () => {
     try {
-        fetch('/api/sessions/logout', {
+        fetch('/api/session/logout', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

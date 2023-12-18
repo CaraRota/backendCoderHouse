@@ -63,7 +63,7 @@ export const registerGithub = async (req, res) => {
     res.status(200).send({ mensaje: 'Usuario creado' })
 }
 
-export const githubSessions = async (req, res) => {
+export const githubSession = async (req, res) => {
     req.session.user = req.user
     res.redirect('/static/home'); //Redirigimos al usuario a home una vez inicia sesion correctamente
     // res.status(200).send({ mensaje: 'Sesion creada' })

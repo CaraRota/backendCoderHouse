@@ -3,7 +3,7 @@ import routerProd from "./products.js";
 import routerCart from "./carts.js";
 import routerHome from './homepage.js'
 import routerMessages from './messages.js'
-import routerSession from "./sessions.js";
+import routerSession from "./session.js";
 import routerUser from "./users.js";
 import routerTicket from "./ticket.js";
 import routerHandlebars from './handlebars.js'
@@ -19,7 +19,7 @@ router.use("/api/products", routerProd)
 router.use("/api/carts", routerCart)
 router.use("/api/messages", routerMessages)
 router.use('/api/users', routerUser)
-router.use('/api/sessions', routerSession)
+router.use('/api/session', routerSession)
 router.use('/api/tickets', routerTicket)
 router.use('/api/mockingproducts', routerMockingProducts)
 router.use("/api/loggerTest", routerLoggerTest)

@@ -97,6 +97,17 @@ export const resetPassword = async (req, res) => {
     }
 }
 
+export const getUsers = async (req, res) => {
+    try {
+        const users = await UserModel.find();
+        logger.info(`Usuarios encontrados: ${users.length}`);
+        return res.status(200).send(users);
+    } catch (error) {
+        logger.error(`Error al obtener usuarios: ${error}`);
+        return res.status(500).send({ error: `Error al obtener usuarios: ${error}` });
+    }
+}
+
 export const deleteUser = async (req, res) => {
     const { id } = req.params;
 

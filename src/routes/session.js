@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { currentJWTUser, githubSessions, login, logout, register, registerGithub } from "../controllers/sessions.js";
+import { currentJWTUser, githubSession, login, logout, register, registerGithub } from "../controllers/session.js";
 import { passportError, authorization } from "../utils/messageErrors.js";
 import 'dotenv/config'
 
@@ -30,7 +30,7 @@ routerSession.post('/register', (req, res, next) => {
 routerSession.post('/login', passport.authenticate('login'), login);
 routerSession.get('/current', passportError('jwt'), authorization(['user']), currentJWTUser);
 routerSession.get('/github', passport.authenticate('github', { scope: ['user:email'] }), registerGithub);
-routerSession.get('/githubSessions', passport.authenticate('github'), githubSessions);
+routerSession.get('/githubSession', passport.authenticate('github'), githubSession);
 routerSession.get('/logout', logout);
 
 export default routerSession;
