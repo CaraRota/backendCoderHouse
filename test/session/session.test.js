@@ -15,12 +15,12 @@ await mongoose.connect(process.env.MONGO_DB_URL)
     .then(() => logger.info('Conectado a la BDD Mongo (test mode)'))
     .catch(error => logger.error('Error al conectar a la BDD Mongo (test mode): ' + error));
 
-describe('Testing de sessions en Tienda Online', function () {
+describe('Testing de session en Tienda Online', function () {
     this.timeout(7000);
     let token = "";
 
     beforeEach(async function () {
-        await requester.post('/api/sessions/register')
+        await requester.post('/api/session/register')
             .send({
                 first_name: "Tester",
                 last_name: "Surname",
@@ -29,12 +29,12 @@ describe('Testing de sessions en Tienda Online', function () {
                 age: 24
             });
         // Logout user
-        await requester.get('/api/sessions/logout').set("Cookie", `jwtCookie=${token}`);
+        await requester.get('/api/session/logout').set("Cookie", `jwtCookie=${token}`);
         token = "";
     });
-    describe('Test de sessions', function () {
-        it('Test endpoint: POST /api/sessions/login, sea un payload', async () => {
-            const response = await requester.post('/api/sessions/login')
+    describe('Test de session', function () {
+        it('Test endpoint: POST /api/session/login, sea un payload', async () => {
+            const response = await requester.post('/api/session/login')
                 .send({
                     email: process.env.TESTING_EMAIL,
                     password: process.env.TESTING_PASSWORD

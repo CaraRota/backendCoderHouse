@@ -41,7 +41,7 @@ describe('Test de Usuario y carrito', function () {
     }
 
     it("Ruta: api/session/register para crear usuario", async () => {
-        const response = await requester.post('/api/sessions/register').send(newUser)
+        const response = await requester.post('/api/session/register').send(newUser)
         const { payload } = response.body
         const { status } = response
 
@@ -52,7 +52,7 @@ describe('Test de Usuario y carrito', function () {
     })
 
     it("Ruta: api/session/login con el metodo POST", async () => {
-        const response = await requester.post('/api/sessions/login')
+        const response = await requester.post('/api/session/login')
             .send({
                 email: newUser.email,
                 password: newUser.password
