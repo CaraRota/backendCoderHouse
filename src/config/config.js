@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { __dirname } from '../path.js';
 import 'dotenv/config';
+import multer from 'multer';
 
 //IMPORT LOGGER
 import logger from '../utils/loggers.js';
@@ -34,3 +35,25 @@ const swaggerOptions = {
 
 export const specs = swaggerJSDoc(swaggerOptions)
 export const io = new Server(server);
+
+//MULTER CONFIGURATION
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'src/public/documents');
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+const fileFilter = (req, file, cb) => {
+    const allowedMimeTypes = ['image/png', 'application/pdf', 'image/jpeg', 'image/jpg'];
+
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Invalid file type. Only PNG, JPEG, JPG, and PDF files are allowed.'));
+    }
+};
+
+export const upload = multer({ storage: storage, fileFilter: fileFilter });

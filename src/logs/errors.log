@@ -43,3 +43,38 @@
 {"level":"error","timestamp":"2023-12-18T12:27:37.334Z"}
 {"_message":"users validation failed","errors":{"age":{"kind":"required","message":"Path `age` is required.","name":"ValidatorError","path":"age","properties":{"message":"Path `age` is required.","path":"age","type":"required"}}},"level":"error","timestamp":"2023-12-18T15:03:30.531Z"}
 {"level":"error","timestamp":"2023-12-18T15:03:30.533Z"}
+{"level":"error","message":"Error al subir documentos: TypeError: upload is not a function","timestamp":"2023-12-19T13:31:05.630Z"}
+{"level":"error","timestamp":"2023-12-19T13:34:56.395Z"}
+{"level":"error","timestamp":"2023-12-19T13:35:53.025Z"}
+{"level":"error","timestamp":"2023-12-19T13:35:55.260Z"}
+{"level":"error","timestamp":"2023-12-19T13:35:56.317Z"}
+{"level":"error","timestamp":"2023-12-19T13:36:24.913Z"}
+{"level":"error","timestamp":"2023-12-19T13:42:25.740Z"}
+{"level":"error","message":"Error uploading document: MulterError: Unexpected field","timestamp":"2023-12-19T13:45:48.359Z"}
+{"level":"error","message":"Error uploading document: MulterError: Unexpected field","timestamp":"2023-12-19T13:51:04.733Z"}
+{"level":"error","message":"Error uploading document: MulterError: Unexpected field","timestamp":"2023-12-19T13:53:29.646Z"}
+{"level":"error","message":"Error uploading document: MulterError: Unexpected field","timestamp":"2023-12-19T13:54:36.236Z"}
+{"level":"error","timestamp":"2023-12-19T13:56:01.825Z"}
+{"level":"error","timestamp":"2023-12-19T13:56:41.226Z"}
+{"level":"error","timestamp":"2023-12-19T13:59:20.521Z"}
+{"level":"error","timestamp":"2023-12-19T14:01:39.390Z"}
+{"level":"error","timestamp":"2023-12-19T14:03:19.512Z"}
+{"level":"error","timestamp":"2023-12-19T14:04:09.326Z"}
+{"level":"error","message":"Error al agregar documento: CastError: Cast to ObjectId failed for value \"1702994720983-56153790_2278500648860510_7474295331962748928_n.jpg\" (type string) at path \"documents\" because of \"BSONError\"","timestamp":"2023-12-19T14:05:21.047Z"}
+{"level":"error","message":"Error al actualizar documentos: CastError: Cast to ObjectId failed for value \"{\n  filename: '1702994853098-56153790_2278500648860510_7474295331962748928_n.jpg',\n  fileId: undefined\n}\" (type Object) at path \"documents\" because of \"BSONError\"","timestamp":"2023-12-19T14:07:33.166Z"}
+{"level":"error","message":"Error al actualizar documentos: CastError: Cast to ObjectId failed for value \"{\n  filename: '1702995076526-56153790_2278500648860510_7474295331962748928_n.jpg',\n  originalname: '56153790_2278500648860510_7474295331962748928_n.jpg'\n}\" (type Object) at path \"documents\" because of \"BSONError\"","timestamp":"2023-12-19T14:11:16.591Z"}
+{"level":"error","message":"Error al actualizar documentos: CastError: Cast to ObjectId failed for value \"1702995227893-56153790_2278500648860510_7474295331962748928_n.jpg\" (type string) at path \"documents\" because of \"BSONError\"","timestamp":"2023-12-19T14:13:47.951Z"}
+{"level":"error","timestamp":"2023-12-19T14:21:56.077Z"}
+{"level":"error","timestamp":"2023-12-19T14:22:17.319Z"}
+{"level":"error","timestamp":"2023-12-19T14:23:36.651Z"}
+{"level":"error","timestamp":"2023-12-19T14:24:10.512Z"}
+{"level":"error","timestamp":"2023-12-19T14:24:44.094Z"}
+{"level":"error","timestamp":"2023-12-19T14:25:43.234Z"}
+{"level":"error","timestamp":"2023-12-19T14:26:02.330Z"}
+{"level":"error","timestamp":"2023-12-19T14:26:19.841Z"}
+{"level":"error","timestamp":"2023-12-19T14:33:01.662Z"}
+{"level":"error","timestamp":"2023-12-19T14:36:44.269Z"}
+{"level":"error","timestamp":"2023-12-19T14:37:32.975Z"}
+{"level":"error","timestamp":"2023-12-19T14:37:41.430Z"}
+{"level":"error","message":"Error al actualizar documentos: TypeError: Cannot destructure property 'filename' of 'req.file' as it is undefined.","timestamp":"2023-12-19T14:42:31.326Z"}
+{"level":"error","message":"Error al actualizar documentos: CastError: Cast to string failed for value \"{\n  filename: '1702997238037-6484023_preview.png.jpg',\n  fileId: undefined\n}\" (type Object) at path \"documents\"","timestamp":"2023-12-19T14:47:18.104Z"}

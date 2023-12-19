@@ -1,7 +1,9 @@
 import { generateToken } from "../utils/jwt.js";
 import logger from "../utils/loggers.js";
 
-export const register = async (req, res) => {    
+import userModel from "../models/users.js";
+
+export const register = async (req, res) => {
     try {
         if (!req.user) {
             res.status(401).send({ error: `Error al registrar usuario` });
@@ -37,6 +39,8 @@ export const login = async (req, res) => {
         res.cookie('jwtCookie', token, {
             maxAge: 43200000
         })
+        //Actualizamos la ultima conexion del usuario
+        await userModel.findByIdAndUpdate(req.user._id, { last_connection: Date.now() })
         res.status(200).send({ payload: req.user })
     } catch (error) {
         logger.error(`Error al iniciar sesion: ${error}`);
@@ -47,6 +51,8 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
     if (req.session.user) {
         try {
+            //Actualizamos la ultima conexion del usuario
+            await userModel.findByIdAndUpdate(req.session.user._id, { last_connection: Date.now() })
             req.session.destroy()
             res.status(200).send({ resultado: 'Has cerrado sesion' })
             // res.redirect('/static/login');
