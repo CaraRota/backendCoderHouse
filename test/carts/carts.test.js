@@ -78,7 +78,7 @@ describe('Test de Usuario y carrito', function () {
         logger.info(`Token: ${token.name} = ${token.value}`)
     })
 
-    it('Ruta: api/carts/products/pid con metodo POST', async () => {
+    it('Ruta: api/carts/product/pid con metodo POST', async () => {
         const cid = cartId
         const pid = await getProductID();
         const quantity = 1
@@ -86,7 +86,7 @@ describe('Test de Usuario y carrito', function () {
         /* await requester.post(`/api/carts/products/${pid}`).set('Cookie', [`${token.name} = ${token.value}`]) AGREGAR DOS VECES EL MISMO PRODUCTO*/
 
         const response = await requester
-            .post(`/api/carts/${cid}/products/${pid}`)
+            .post(`/api/carts/${cid}/product/${pid}`)
             .set('Cookie', `${token.name}=${token.value}`)
             .send({ quantity });
 
@@ -100,12 +100,12 @@ describe('Test de Usuario y carrito', function () {
         logger.info(`Producto: ${__body.products}`)
     })
 
-    it('Ruta: api/carts/cid/products/pid Metodo PUT', async () => {
+    it('Ruta: api/carts/cid/product/pid Metodo PUT', async () => {
         const cid = cartId
         const pid = await getProductID();
         const newQuantity = { quantity: 6 }
 
-        const response = await requester.put(`/api/carts/${cid}/products/${pid}`).send(newQuantity).set('Cookie', [`${token.name} = ${token.value}`])
+        const response = await requester.put(`/api/carts/${cid}/product/${pid}`).send(newQuantity).set('Cookie', [`${token.name} = ${token.value}`])
 
         const __body = response.body.payload
         const { status } = response
