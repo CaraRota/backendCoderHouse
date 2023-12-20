@@ -78,3 +78,14 @@
 {"level":"error","timestamp":"2023-12-19T14:37:41.430Z"}
 {"level":"error","message":"Error al actualizar documentos: TypeError: Cannot destructure property 'filename' of 'req.file' as it is undefined.","timestamp":"2023-12-19T14:42:31.326Z"}
 {"level":"error","message":"Error al actualizar documentos: CastError: Cast to string failed for value \"{\n  filename: '1702997238037-6484023_preview.png.jpg',\n  fileId: undefined\n}\" (type Object) at path \"documents\"","timestamp":"2023-12-19T14:47:18.104Z"}
+{"level":"error","timestamp":"2023-12-20T12:17:05.352Z"}
+{"level":"error","timestamp":"2023-12-20T12:17:05.369Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:48:26.903Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:50:08.932Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:50:12.379Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:51:52.819Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:54:02.651Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:54:21.644Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:54:59.957Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:55:07.724Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:55:27.576Z"}

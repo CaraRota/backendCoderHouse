@@ -1,9 +1,10 @@
 import crypto from 'crypto';
-import { sendRecoveryEmail } from '../config/nodemailer.js';
+import { sendAccountDeletion, sendRecoveryEmail } from '../config/nodemailer.js';
 import logger from '../utils/loggers.js';
 import UserModel from '../models/users.js';
 import { createHash, validatePassword } from '../utils/bcrypt.js';
 import 'dotenv/config'
+import userModel from '../models/users.js';
 
 export const registerUser = async (req, res) => {
     try {
@@ -101,7 +102,13 @@ export const getUsers = async (req, res) => {
     try {
         const users = await UserModel.find();
         logger.info(`Usuarios encontrados: ${users.length}`);
-        return res.status(200).send(users);
+
+        //We filter the data in order to get specific values
+        const filterUserData = users.map((user) => {
+            const { email, first_name, last_name, role } = user;
+            return { first_name, last_name, email, role };
+        });
+        return res.status(200).send(filterUserData);
     } catch (error) {
         logger.error(`Error al obtener usuarios: ${error}`);
         return res.status(500).send({ error: `Error al obtener usuarios: ${error}` });
@@ -160,3 +167,27 @@ export const uploadDocuments = async (req, res) => {
         return res.status(500).send({ error: `Error al actualizar documentos: ${error}` });
     }
 };
+
+export const deleteInactiveUsers = async (req, res) => {
+    try {
+        const users = await userModel.find({ last_connection: { $lt: new Date(Date.now() - process.env.USERS_INACTIVE_TIME) } });
+
+        if (users.length === 0) {
+            logger.error(`No se encontraron usuarios inactivos`);
+            return res.status(400).send({ error: `No se encontraron usuarios inactivos` });
+        }
+
+        await Promise.all(users.map(async (user) => {
+            // logger.info("user ID", user._doc.cart)
+            const { _id, email } = user._doc;
+            await sendAccountDeletion(email);
+            await userModel.findByIdAndDelete(_id);
+        }));
+
+        logger.info(`Usuarios inactivos eliminados correctamente: ${users.length}`);
+        return res.status(200).send({ resultado: 'OK', message: 'Usuarios inactivos eliminados correctamente' });
+    } catch (error) {
+        logger.error(`Error al eliminar usuarios inactivos: ${error}`);
+        return res.status(500).send({ error: `Error al eliminar usuarios inactivos: ${error}` });
+    }
+}
