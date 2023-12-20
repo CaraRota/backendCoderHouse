@@ -178,16 +178,15 @@ export const deleteInactiveUsers = async (req, res) => {
         }
 
         await Promise.all(users.map(async (user) => {
-            // logger.info("user ID", user._doc.cart)
-            const { _id, email } = user._doc;
+            const { _id, email } = user;
             await sendAccountDeletion(email);
             await userModel.findByIdAndDelete(_id);
         }));
 
-        logger.info(`Usuarios inactivos eliminados correctamente: ${users.length}`);
+        logger.info(`Usuarios inactivos eliminados correctamente`);
         return res.status(200).send({ resultado: 'OK', message: 'Usuarios inactivos eliminados correctamente' });
     } catch (error) {
         logger.error(`Error al eliminar usuarios inactivos: ${error}`);
         return res.status(500).send({ error: `Error al eliminar usuarios inactivos: ${error}` });
     }
-}
+};

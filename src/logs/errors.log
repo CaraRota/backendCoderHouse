@@ -89,3 +89,17 @@
 {"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:54:59.957Z"}
 {"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:55:07.724Z"}
 {"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:55:27.576Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T13:00:19.959Z"}
+{"level":"error","message":"Error al enviar email: ReferenceError: storeName is not defined","timestamp":"2023-12-20T13:03:30.889Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: ReferenceError: res is not defined","timestamp":"2023-12-20T13:03:30.890Z"}
+{"level":"error","message":"Error al enviar email: ReferenceError: storeName is not defined","timestamp":"2023-12-20T13:04:06.558Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot read properties of undefined (reading 'status')","timestamp":"2023-12-20T13:04:06.559Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:07:12.299Z"}
+{"level":"error","message":"No se encontraron usuarios inactivos","timestamp":"2023-12-20T13:08:34.852Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:10:14.011Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:10:50.670Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:11:26.866Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'user' of 'undefined' as it is undefined.","timestamp":"2023-12-20T13:14:26.978Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T13:16:09.074Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T13:17:48.102Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:20:29.820Z"}
