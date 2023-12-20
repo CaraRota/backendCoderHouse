@@ -18,6 +18,7 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import initializePassport from './config/passport.js';
 import 'dotenv/config'
+import cors from 'cors';
 
 //ERROR HANDLER
 import errorHandler from './utils/errorHandler.js';
@@ -27,6 +28,7 @@ import logger from './utils/loggers.js';
 
 
 //Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.JWTSECRET));
