@@ -1,4 +1,6 @@
+import React from 'react';
 import './App.css'
+import { UserProvider } from './hooks/UserContext';
 import Homepage from './components/Homepage'
 import Login from './components/Login'
 import Navbar from './components/Navbar'
@@ -12,12 +14,14 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Homepage />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-        </Routes>
+        <UserProvider>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Homepage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Routes>
+        </UserProvider>
       </Router >
     </>
   )

@@ -1,40 +1,23 @@
 import React, { useState } from 'react';
 import { TextField, Button, Paper, Typography, Container, CssBaseline, Alert } from '@mui/material';
-
-//RRD
 import { Link } from 'react-router-dom';
-import { set } from 'mongoose';
+import { useUser } from '../hooks/UserContext'
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
+    const [error, setError] = useState('');
+
+    const { login } = useUser();
 
     const handleLogin = async () => {
         setIsLoading(true);
-        setError("");
+        setError('');
         try {
-            // You can perform your login/authentication logic here
-            console.log('Logging in with:', { email, password });
-            // Example: Send credentials to the server for authentication
-            const response = await fetch('http://localhost:3000/api/session/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (response.ok) {
-                // Successful login, you may redirect or perform other actions here
-                console.log('Login successful!');
-            } else {
-                // Handle login failure (incorrect credentials, etc.)
-                setError("Email o contraseña incorrectos");
-            }
+            await login({ email, password });
         } catch (error) {
-            setError("Error durante el login");
+            setError(error.message);
         } finally {
             setIsLoading(false);
         }
@@ -73,7 +56,7 @@ const Login = () => {
                     {isLoading ? 'Iniciando sesion...' : 'Login'}
                 </Button>
                 <Typography variant="body2" style={{ marginTop: '10px' }}>
-                    No tenes cuenta? <Link to={"/register"} style={{ color: 'blue' }}>Registrate aqui</Link>
+                    No tenes cuenta? <Link to="/register" style={{ color: 'blue' }}>Registrate aqui</Link>
                 </Typography>
             </Paper>
         </Container>

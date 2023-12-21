@@ -6,10 +6,19 @@ import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 //RRD
 import { useNavigate, Link } from 'react-router-dom';
 
+//User Context
+import { useUser } from '../hooks/UserContext';
+
 const Navbar = () => {
     const storeName = 'Tienda Online';
+    const { user, logout } = useUser();
 
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout()
+    }
+
     const handleLogin = () => {
         navigate('/login');
     };
@@ -21,7 +30,11 @@ const Navbar = () => {
                     <Typography variant="h6">
                         <Link to={"/"}>{storeName}</Link>
                     </Typography>
-                    <Button color="inherit" onClick={handleLogin}>Login</Button>
+                    {
+                        user ? <Button color="inherit" onClick={handleLogin}>Login</Button>
+                            : <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                    }
+
                 </Toolbar>
             </AppBar>
         </>
