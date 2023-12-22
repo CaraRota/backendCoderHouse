@@ -31,6 +31,6 @@ routerSession.post('/login', passport.authenticate('login'), login);
 routerSession.get('/current', passportError('jwt'), authorization(['user']), currentJWTUser);
 routerSession.get('/github', passport.authenticate('github', { scope: ['user:email'] }), registerGithub);
 routerSession.get('/githubSession', passport.authenticate('github'), githubSession);
-routerSession.get('/logout', logout);
+routerSession.get('/logout', passport.authenticate('jwt', { session: false }), logout);
 
 export default routerSession;

@@ -78,3 +78,35 @@
 {"level":"error","timestamp":"2023-12-19T14:37:41.430Z"}
 {"level":"error","message":"Error al actualizar documentos: TypeError: Cannot destructure property 'filename' of 'req.file' as it is undefined.","timestamp":"2023-12-19T14:42:31.326Z"}
 {"level":"error","message":"Error al actualizar documentos: CastError: Cast to string failed for value \"{\n  filename: '1702997238037-6484023_preview.png.jpg',\n  fileId: undefined\n}\" (type Object) at path \"documents\"","timestamp":"2023-12-19T14:47:18.104Z"}
+{"level":"error","timestamp":"2023-12-20T12:17:05.352Z"}
+{"level":"error","timestamp":"2023-12-20T12:17:05.369Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:48:26.903Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:50:08.932Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:50:12.379Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:51:52.819Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:54:02.651Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:54:21.644Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:54:59.957Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:55:07.724Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T12:55:27.576Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T13:00:19.959Z"}
+{"level":"error","message":"Error al enviar email: ReferenceError: storeName is not defined","timestamp":"2023-12-20T13:03:30.889Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: ReferenceError: res is not defined","timestamp":"2023-12-20T13:03:30.890Z"}
+{"level":"error","message":"Error al enviar email: ReferenceError: storeName is not defined","timestamp":"2023-12-20T13:04:06.558Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot read properties of undefined (reading 'status')","timestamp":"2023-12-20T13:04:06.559Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:07:12.299Z"}
+{"level":"error","message":"No se encontraron usuarios inactivos","timestamp":"2023-12-20T13:08:34.852Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:10:14.011Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:10:50.670Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:11:26.866Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'user' of 'undefined' as it is undefined.","timestamp":"2023-12-20T13:14:26.978Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T13:16:09.074Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: TypeError: Cannot destructure property 'email' of 'undefined' as it is undefined.","timestamp":"2023-12-20T13:17:48.102Z"}
+{"level":"error","message":"Error al enviar email: Error: No recipients defined","timestamp":"2023-12-20T13:20:29.820Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: CastError: Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\"","timestamp":"2023-12-20T16:47:13.725Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: CastError: Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\"","timestamp":"2023-12-20T16:48:15.788Z"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: CastError: Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\"","timestamp":"2023-12-20T16:52:52.173Z"}
+{"level":"warn","message":"No se encontraron usuarios inactivos","timestamp":"2023-12-20T16:53:15.306Z"}
+{"level":"warn","message":"No se encontraron usuarios inactivos","timestamp":"2023-12-20T16:59:53.322Z"}
+{"level":"error","message":"\n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * name: needs to be a String, received undefined\n    * description: needs to be a String, received undefined\n    * price: needs to be a Number, received undefined\n    * stock: needs to be a Number, received undefined\n    * code: needs to be a String, received undefined\n    * category: needs to be a String, received undefined\n    ","timestamp":"2023-12-21T13:42:56.014Z"}
+{"level":"error","message":"\n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * first_name: needs to be a String, received \n    * last_name: needs to be a String, received \n    * email: needs to be a String, received canalsdigital@gmail.com\n    ","timestamp":"2023-12-21T18:16:01.462Z"}

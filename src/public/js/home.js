@@ -14,6 +14,9 @@ socket.on('productos', (products) => {
             <td>${product.price}</td>
             <td>${product.stock}</td>
             <td>${product.category}</td>
+            <td>
+                <button class="addCart-btn">Agregar</button>
+            </td>
         </tr>
         `);
     }).join(" ");

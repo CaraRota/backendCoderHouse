@@ -1,7 +1,7 @@
 import crypto from 'crypto';
-import { sendRecoveryEmail } from '../config/nodemailer.js';
+import { sendAccountDeletion, sendRecoveryEmail } from '../config/nodemailer.js';
 import logger from '../utils/loggers.js';
-import UserModel from '../models/users.js';
+import userModel from '../models/users.js';
 import { createHash, validatePassword } from '../utils/bcrypt.js';
 import 'dotenv/config'
 
@@ -23,7 +23,7 @@ export const passwordRecovery = async (req, res) => {
 
     try {
         //Verificacion de usuario existente
-        const user = await UserModel.findOne({ email });
+        const user = await userModel.findOne({ email });
         if (!user) {
             logger.error(`Usuario no encontrado: ${email}`);
             return res.status(400).send({ error: `Usuario no encontrado: ${email}` });
@@ -66,7 +66,7 @@ export const resetPassword = async (req, res) => {
         const { email } = linkData;
 
         try {
-            const user = await UserModel.findOne({ email });
+            const user = await userModel.findOne({ email });
             if (!user) {
                 logger.error(`Usuario no encontrado: ${email}`);
                 return res.status(400).send({ error: `Usuario no encontrado: ${email}` });
@@ -99,9 +99,15 @@ export const resetPassword = async (req, res) => {
 
 export const getUsers = async (req, res) => {
     try {
-        const users = await UserModel.find();
+        const users = await userModel.find();
         logger.info(`Usuarios encontrados: ${users.length}`);
-        return res.status(200).send(users);
+
+        //We filter the data in order to get specific values
+        const filterUserData = users.map((user) => {
+            const { email, first_name, last_name, role } = user;
+            return { first_name, last_name, email, role };
+        });
+        return res.status(200).send(filterUserData);
     } catch (error) {
         logger.error(`Error al obtener usuarios: ${error}`);
         return res.status(500).send({ error: `Error al obtener usuarios: ${error}` });
@@ -112,7 +118,7 @@ export const deleteUser = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const user = await UserModel.findByIdAndDelete(id);
+        const user = await userModel.findByIdAndDelete(id);
         if (!user) {
             logger.error(`Usuario no encontrado: ${id}`);
             return res.status(400).send({ error: `Usuario no encontrado: ${id}` });
@@ -137,7 +143,7 @@ export const uploadDocuments = async (req, res) => {
             return res.status(400).send({ error: 'No documents uploaded' });
         }
 
-        const user = await UserModel.findById(id);
+        const user = await userModel.findById(id);
         if (!user) {
             logger.error(`Usuario no encontrado: ${id}`);
             return res.status(400).send({ error: `Usuario no encontrado: ${id}` });
@@ -158,5 +164,32 @@ export const uploadDocuments = async (req, res) => {
     } catch (error) {
         logger.error(`Error al actualizar documentos: ${error}`);
         return res.status(500).send({ error: `Error al actualizar documentos: ${error}` });
+    }
+};
+
+export const deleteInactiveUsers = async (req, res) => {
+    try {
+        const users = await userModel.find({ last_connection: { $lt: new Date(Date.now() - process.env.USERS_INACTIVE_TIME) } });
+
+        if (users.length === 0) {
+            logger.warn(`No se encontraron usuarios inactivos`);
+            return res.status(400).send({ error: `No se encontraron usuarios inactivos` });
+        }
+
+        await Promise.all(users.map(async (user) => {
+            const { _id, email } = user;
+            try {
+                await sendAccountDeletion(email);
+                await userModel.findByIdAndDelete(_id);
+            } catch (error) {
+                logger.error(`Error al procesar usuario: ${error.message}`);
+                return res.status(500).send({ error: `Error al procesar usuario: ${error.message}` });
+            }
+        }));
+        logger.info(`Usuarios inactivos eliminados correctamente: ${users.length}`);
+        return res.status(200).send({ resultado: 'OK', message: 'Usuarios inactivos eliminados correctamente' });
+    } catch (error) {
+        logger.error(`Error al eliminar usuarios inactivos: ${error}`);
+        return res.status(500).send({ error: `Error al eliminar usuarios inactivos: ${error}` });
     }
 };
