@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
+
+//MUI
 import { TextField, Button, Paper, Typography, Container, CssBaseline, Alert } from '@mui/material';
-import { Link } from 'react-router-dom';
+
+//User Context
 import { useUser } from '../hooks/UserContext'
+
+//RRD
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -9,6 +15,7 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
+    const navigate = useNavigate();
     const { login } = useUser();
 
     const handleLogin = async () => {
@@ -16,6 +23,8 @@ const Login = () => {
         setError('');
         try {
             await login({ email, password });
+            navigate('/');
+
         } catch (error) {
             setError(error.message);
         } finally {

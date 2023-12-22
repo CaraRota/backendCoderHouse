@@ -1,10 +1,17 @@
 // UserContext.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
 
     const login = async (userData) => {
         try {
@@ -13,12 +20,14 @@ export const UserProvider = ({ children }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include', // Include cookies
                 body: JSON.stringify(userData),
             });
 
             if (response.ok) {
                 const userResponse = await response.json();
-                setUser(userResponse);
+                localStorage.setItem('user', JSON.stringify(userResponse.payload));
+                setUser(userResponse.payload);
             } else {
                 throw new Error('Email or password incorrect');
             }
@@ -29,12 +38,19 @@ export const UserProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/session/logout')
-            if(response.ok) {
+            const response = await fetch('http://localhost:3000/api/session/logout', {
+                method: 'GET',
+                credentials: 'include', // Include cookies
+            });
+
+            if (response.ok) {
+                localStorage.removeItem('user');
                 setUser(null);
+            } else {
+                throw new Error('Error during logout');
             }
-            
         } catch (error) {
+            console.error('Error during logout:', error);
             throw new Error('Error during logout');
         }
     };

@@ -31,8 +31,8 @@ const Navbar = () => {
                         <Link to={"/"}>{storeName}</Link>
                     </Typography>
                     {
-                        user ? <Button color="inherit" onClick={handleLogin}>Login</Button>
-                            : <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                        user ? <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                            : <Button color="inherit" onClick={handleLogin}>Login</Button>
                     }
 
                 </Toolbar>
