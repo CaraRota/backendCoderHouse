@@ -11,13 +11,21 @@ import { useNavigate, Link } from 'react-router-dom';
 //User Context
 import { useUser } from '../hooks/UserContext';
 
+//Cart Context
+import { useCart } from '../hooks/CartContext';
+
 const Navbar = () => {
+    const { user, logout, loggedIn } = useUser();
+    const { cart } = useCart();
+
+    console.log("THIS IS THE CART: ", cart)
+
     const storeName = 'Tienda Online';
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
 
-    const { user, logout, loggedIn } = useUser();
     const navigate = useNavigate();
+
 
     const handleLogout = async () => {
         try {
@@ -65,7 +73,7 @@ const Navbar = () => {
                             <>
                                 <Link to={"/cart"}>
                                     <Stack spacing={2} direction="row" alignItems="center">
-                                        <Badge badgeContent={4} color="success">
+                                        <Badge badgeContent={0} color="success">
                                             <ShoppingCartIcon color="action" />
                                         </Badge>
                                     </Stack>

@@ -6,12 +6,14 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
             setLoggedIn(true);
+            setToken(document.cookie.split(';').find(row => row.startsWith('jwtCookie')).split('=')[1])
         }
     }, []);
 
@@ -31,6 +33,7 @@ export const UserProvider = ({ children }) => {
                 localStorage.setItem('user', JSON.stringify(userResponse.payload));
                 setUser(userResponse.payload);
                 setLoggedIn(true);
+                setToken(document.cookie.split(';').find(row => row.startsWith('jwtCookie')).split('=')[1])
             } else {
                 throw new Error('Email or password incorrect');
             }
@@ -60,7 +63,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, login, logout, loggedIn }}>
+        <UserContext.Provider value={{ user, login, logout, loggedIn, token }}>
             {children}
         </UserContext.Provider>
     );
