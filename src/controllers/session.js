@@ -54,6 +54,7 @@ export const logout = async (req, res) => {
             //Actualizamos la ultima conexion del usuario
             await userModel.findByIdAndUpdate(req.session.user._id, { last_connection: Date.now() })
             req.session.destroy()
+            res.clearCookie('jwtCookie')
             res.status(200).send({ resultado: 'Has cerrado sesion' })
             // res.redirect('/static/login');
         }

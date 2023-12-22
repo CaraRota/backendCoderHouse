@@ -5,11 +5,13 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+            setLoggedIn(true);
         }
     }, []);
 
@@ -20,7 +22,7 @@ export const UserProvider = ({ children }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'include', // Include cookies
+                credentials: 'include',
                 body: JSON.stringify(userData),
             });
 
@@ -28,6 +30,7 @@ export const UserProvider = ({ children }) => {
                 const userResponse = await response.json();
                 localStorage.setItem('user', JSON.stringify(userResponse.payload));
                 setUser(userResponse.payload);
+                setLoggedIn(true);
             } else {
                 throw new Error('Email or password incorrect');
             }
@@ -40,12 +43,13 @@ export const UserProvider = ({ children }) => {
         try {
             const response = await fetch('http://localhost:3000/api/session/logout', {
                 method: 'GET',
-                credentials: 'include', // Include cookies
+                credentials: 'include',
             });
 
             if (response.ok) {
                 localStorage.removeItem('user');
                 setUser(null);
+                setLoggedIn(false);
             } else {
                 throw new Error('Error during logout');
             }
@@ -56,7 +60,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, login, logout }}>
+        <UserContext.Provider value={{ user, login, logout, loggedIn }}>
             {children}
         </UserContext.Provider>
     );

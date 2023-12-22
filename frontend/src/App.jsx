@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 //RRD
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Register from './components/Register'
+import Cart from './components/Cart';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
             <Route path='/' element={<Homepage />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/cart' element={<Cart />} />
           </Routes>
         </UserProvider>
       </Router >
