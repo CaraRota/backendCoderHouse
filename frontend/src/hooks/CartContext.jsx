@@ -7,25 +7,21 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const { user, token } = useUser();
-    const yourJWTToken = token;
-
     const [cart, setCart] = useState([]);
 
     useEffect(() => {
         const fetchCartData = async () => {
             try {
-                if (!yourJWTToken || !user) {
+                if (!token || !user) {
                     return;
                 }
-
                 const response = await fetch(`http://localhost:3000/api/carts/${user.cart}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${yourJWTToken}`,
+                        'Authorization': `Bearer ${token}`,
                     },
                 });
-
                 if (response.ok) {
                     const cartData = await response.json();
                     setCart(cartData.message.products);
@@ -38,7 +34,7 @@ export const CartProvider = ({ children }) => {
         };
 
         fetchCartData();
-    }, [yourJWTToken, user]);
+    }, [token, user]);
 
     const modifyCart = async (modifiedCart) => {
         try {
@@ -46,7 +42,7 @@ export const CartProvider = ({ children }) => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${yourJWTToken}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(modifiedCart),
             });
@@ -67,12 +63,12 @@ export const CartProvider = ({ children }) => {
             const response = await fetch(`http://localhost:3000/api/carts/${user.cart}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${yourJWTToken}`,
+                    'Authorization': `Bearer ${token}`,
                 },
             });
 
             if (response.ok) {
-                setCart(null);
+                setCart([]);
             } else {
                 // Handle error emptying cart
             }
@@ -87,19 +83,19 @@ export const CartProvider = ({ children }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${yourJWTToken}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ quantity }),
             });
 
             if (response.ok) {
                 const updatedCart = await response.json();
-                setCart(updatedCart);
+                setCart(updatedCart.message.products);
             } else {
-                // Handle error adding product to cart
+                console.log("ERROR", response)
             }
         } catch (error) {
-            // Handle add product to cart error
+            console.log("ERROR", error)
         }
     };
 
@@ -109,14 +105,14 @@ export const CartProvider = ({ children }) => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${yourJWTToken}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({ quantity }),
             });
 
             if (response.ok) {
                 const updatedCart = await response.json();
-                setCart(updatedCart);
+                setCart(updatedCart.message.products);
             } else {
                 // Handle error modifying product quantity
             }
@@ -130,13 +126,13 @@ export const CartProvider = ({ children }) => {
             const response = await fetch(`http://localhost:3000/api/carts/${user.cart}/product/${productId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${yourJWTToken}`,
+                    'Authorization': `Bearer ${token}`,
                 },
             });
 
             if (response.ok) {
                 const updatedCart = await response.json();
-                setCart(updatedCart);
+                setCart(updatedCart.message.products);
             } else {
                 // Handle error removing product from cart
             }
@@ -150,13 +146,13 @@ export const CartProvider = ({ children }) => {
             const response = await fetch(`http://localhost:3000/api/carts/${user.cart}/checkout`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${yourJWTToken}`,
+                    'Authorization': `Bearer ${token}`,
                 },
             });
 
             if (response.ok) {
                 const updatedCart = await response.json();
-                setCart(updatedCart);
+                setCart(updatedCart.message.products);
             } else {
                 // Handle error checking out cart
             }
@@ -164,6 +160,9 @@ export const CartProvider = ({ children }) => {
             // Handle checkout cart error
         }
     };
+
+    const totalQty = cart.reduce((acc, product) => acc + product.quantity, 0);
+    const totalAmount = cart.reduce((acc, product) => acc + product.quantity * product.id_prod.price, 0);
 
     return (
         <CartContext.Provider
@@ -175,6 +174,8 @@ export const CartProvider = ({ children }) => {
                 modifyProductQty,
                 removeProductFromCart,
                 checkoutCart,
+                totalQty,
+                totalAmount,
             }}
         >
             {children}
