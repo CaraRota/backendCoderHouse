@@ -18,8 +18,6 @@ const Cart = () => {
         checkoutCart();
     };
 
-    console.log("CART", cart)
-
     return (
         <Card elevation={3} style={{ margin: '20px' }}>
             <CardContent>

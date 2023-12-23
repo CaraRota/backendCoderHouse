@@ -151,8 +151,7 @@ export const CartProvider = ({ children }) => {
             });
 
             if (response.ok) {
-                const updatedCart = await response.json();
-                setCart(updatedCart.message.products);
+                setCart([]);
             } else {
                 // Handle error checking out cart
             }
