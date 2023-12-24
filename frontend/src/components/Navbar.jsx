@@ -16,16 +16,14 @@ import { useCart } from '../hooks/CartContext';
 
 const Navbar = () => {
     const { user, logout, loggedIn } = useUser();
-    const { cart } = useCart();
-
-    console.log("THIS IS THE CART: ", cart)
+    const { totalQty } = useCart();
+    const [badgeCount, setBadgeCount] = useState(0);
 
     const storeName = 'Tienda Online';
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
 
     const navigate = useNavigate();
-
 
     const handleLogout = async () => {
         try {
@@ -73,7 +71,7 @@ const Navbar = () => {
                             <>
                                 <Link to={"/cart"}>
                                     <Stack spacing={2} direction="row" alignItems="center">
-                                        <Badge badgeContent={0} color="success">
+                                        <Badge badgeContent={totalQty} color="success">
                                             <ShoppingCartIcon color="action" />
                                         </Badge>
                                     </Stack>

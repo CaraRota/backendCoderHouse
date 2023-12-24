@@ -49,6 +49,13 @@ export const UserProvider = ({ children }) => {
                 credentials: 'include',
             });
 
+            //Remove jwtCookie
+            document.cookie = "jwtCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                localStorage.removeItem('user');
+            }
+
             if (response.ok) {
                 localStorage.removeItem('user');
                 setUser(null);

@@ -21,8 +21,10 @@ const initializePassport = () => {
         return token
     }
 
+    const { fromAuthHeaderAsBearerToken } = ExtractJWT
+
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor, fromAuthHeaderAsBearerToken()]),
         secretOrKey: process.env.JWTSECRET
     }, async (jwtPayload, done) => {
         try {

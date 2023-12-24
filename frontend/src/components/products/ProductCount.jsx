@@ -44,9 +44,16 @@ const ProductCount = ({ initialCount, onCountChange, onAddToCart, stock, product
                     <AddIcon />
                 </IconButton>
             </div>
-            <Button variant="outlined" color="success" onClick={handleAddToCart} style={{ marginTop: '1.2rem', marginBottom: '1.2rem' }}>
-                Agregar al carrito
-            </Button>
+            {
+                stock === 0 ?
+                    <Button variant="outlined" color="error" style={{ marginTop: '1.2rem', marginBottom: '1.2rem' }}>
+                        Sin stock
+                    </Button>
+
+                    : <Button variant="outlined" color="success" onClick={handleAddToCart} style={{ marginTop: '1.2rem', marginBottom: '1.2rem' }}>
+                        Agregar al carrito
+                    </Button>
+            }
         </div>
     );
 };
