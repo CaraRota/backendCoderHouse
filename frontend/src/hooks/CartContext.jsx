@@ -36,6 +36,26 @@ export const CartProvider = ({ children }) => {
         fetchCartData();
     }, [token, user]);
 
+    const getCart = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/carts/${user.cart}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if (response.ok) {
+                const cartData = await response.json();
+                setCart(cartData.message.products);
+            } else {
+                // Handle error fetching cart data
+            }
+        } catch (error) {
+            // Handle fetch error
+        }
+    }
+
     const modifyCart = async (modifiedCart) => {
         try {
             const response = await fetch(`http://localhost:3000/api/carts/${user.cart}`, {
@@ -91,6 +111,7 @@ export const CartProvider = ({ children }) => {
             if (response.ok) {
                 const updatedCart = await response.json();
                 setCart(updatedCart.message.products);
+                getCart();
             } else {
                 console.log("ERROR", response)
             }

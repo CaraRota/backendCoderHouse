@@ -18,11 +18,14 @@ const Cart = () => {
         checkoutCart();
     };
 
+    const subtotal = totalAmount / 1.21
+    const IVA = subtotal * 0.21
+
     return (
         <Card elevation={3} style={{ margin: '20px' }}>
             <CardContent>
                 <Typography variant="h5" gutterBottom>
-                    Your Shopping Cart
+                    Tu carrito de compras
                 </Typography>
                 {cart.length > 0 ? (
                     <>
@@ -45,7 +48,7 @@ const Cart = () => {
                                             <TableCell align="right">{product.quantity}</TableCell>
                                             <TableCell align="right">{product.id_prod.price} USD</TableCell>
                                             <TableCell align="right">
-                                                <IconButton color="secondary" onClick={() => handleRemoveProduct(product.id_prod._id)}>
+                                                <IconButton color="error" onClick={() => handleRemoveProduct(product.id_prod._id)}>
                                                     <DeleteIcon />
                                                 </IconButton>
                                                 <Button
@@ -70,13 +73,19 @@ const Cart = () => {
                             </Table>
                         </TableContainer>
                         <Typography align='right' variant="h6" style={{ marginTop: '20px' }}>
-                            Totals:
+                            Totales:
                         </Typography>
                         <Typography align='right' variant="body1">
-                            Total Quantity: {totalQty}
+                            Total de unidades: {totalQty}
                         </Typography>
                         <Typography align='right' variant="body1">
-                            Total Amount: {totalAmount.toFixed(2)} USD
+                            Subtotal: {subtotal.toFixed(2)} USD
+                        </Typography>
+                        <Typography align='right' variant="body1">
+                            IVA (21%): {IVA.toFixed(2)} USD
+                        </Typography>
+                        <Typography align='right' variant="body1">
+                            Total: {totalAmount} USD
                         </Typography>
                         <Button
                             variant="contained"
@@ -89,7 +98,7 @@ const Cart = () => {
                         </Button>
                     </>
                 ) : (
-                    <Typography variant="body1">Your cart is empty.</Typography>
+                    <Typography variant="body1">Tu carrito está vacío.</Typography>
                 )}
             </CardContent>
         </Card>
