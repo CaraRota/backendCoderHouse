@@ -10,12 +10,21 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
+        const cookieArray = document.cookie.split(';');
+        const tokenRow = cookieArray.find(row => row.startsWith('jwtCookie'));
+        if (!tokenRow) {
+            setLoggedIn(false);
+            setUser(null);
+            return;
+        }
+        const token = tokenRow.split('=')[1];
         if (storedUser) {
             setUser(JSON.parse(storedUser));
             setLoggedIn(true);
-            setToken(document.cookie.split(';').find(row => row.startsWith('jwtCookie')).split('=')[1])
+            setToken(token);
         }
     }, []);
+
 
     const login = async (userData) => {
         try {

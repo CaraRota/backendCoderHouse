@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import { sendAccountDeletion, sendRecoveryEmail } from '../config/nodemailer.js';
 import logger from '../utils/loggers.js';
 import userModel from '../models/users.js';
+import cartsModel from '../models/carts.js';
 import { createHash, validatePassword } from '../utils/bcrypt.js';
 import 'dotenv/config'
 
@@ -177,10 +178,11 @@ export const deleteInactiveUsers = async (req, res) => {
         }
 
         await Promise.all(users.map(async (user) => {
-            const { _id, email } = user;
+            const { _id, email, cart } = user;
             try {
                 await sendAccountDeletion(email);
                 await userModel.findByIdAndDelete(_id);
+                await cartsModel.findByIdAndDelete(cart);
             } catch (error) {
                 logger.error(`Error al procesar usuario: ${error.message}`);
                 return res.status(500).send({ error: `Error al procesar usuario: ${error.message}` });
