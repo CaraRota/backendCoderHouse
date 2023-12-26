@@ -56,7 +56,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button
-                    variant="contained"
+                    variant="outlined"
                     color="primary"
                     fullWidth
                     onClick={handleLogin}

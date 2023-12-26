@@ -4,10 +4,15 @@ import React from 'react'
 import noImage from '../../assets/noproductimage.png'
 
 //MUI
-import { Typography, Card, CardContent, CardMedia } from '@mui/material'
+import { Typography, Card, CardContent, CardMedia, Button } from '@mui/material'
 import ProductCount from './ProductCount'
 
+//User Context
+import { useUser } from '../../hooks/UserContext'
+
 const ProductDetail = ({ product }) => {
+    const { loggedIn } = useUser()
+
     return (
         <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <CardMedia
@@ -24,7 +29,12 @@ const ProductDetail = ({ product }) => {
                     {product.price} USD
                 </Typography>
             </CardContent>
-            <ProductCount initialCount={0} stock={product.stock} productID={product._id} />
+            {
+                loggedIn ?
+                    <ProductCount initialCount={0} stock={product.stock} productID={product._id} />
+                    : <Button variant="outlined" color="primary" href="/login" sx={{ width: "95%", alignContent: "center", display: "block", margin: "auto", marginBottom: "1.2rem" }}>Inicia sesión para comprar</Button>
+            }
+
         </Card>
     )
 }

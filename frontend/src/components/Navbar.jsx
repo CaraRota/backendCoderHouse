@@ -17,11 +17,11 @@ import { useCart } from '../hooks/CartContext';
 const Navbar = () => {
     const { user, logout, loggedIn } = useUser();
     const { totalQty } = useCart();
-    const [badgeCount, setBadgeCount] = useState(0);
 
     const storeName = 'Tienda Online';
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
@@ -34,6 +34,10 @@ const Navbar = () => {
             setMessage('Has cerrado sesión correctamente');
         } catch (error) {
             console.error('Error during logout:', error);
+            setError("Error al cerrar sesión. Recargando...");
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         }
     };
 
@@ -54,6 +58,13 @@ const Navbar = () => {
 
     return (
         <>
+            {
+                error && <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error" variant="outlined" sx={{ width: '100%' }}>
+                        {error}
+                    </Alert >
+                </Snackbar >
+            }
             {
                 open && <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" variant="outlined" sx={{ width: '100%' }}>
