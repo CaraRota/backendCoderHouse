@@ -110,3 +110,5 @@
 {"level":"warn","message":"No se encontraron usuarios inactivos","timestamp":"2023-12-20T16:59:53.322Z"}
 {"level":"error","message":"\n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * name: needs to be a String, received undefined\n    * description: needs to be a String, received undefined\n    * price: needs to be a Number, received undefined\n    * stock: needs to be a Number, received undefined\n    * code: needs to be a String, received undefined\n    * category: needs to be a String, received undefined\n    ","timestamp":"2023-12-21T13:42:56.014Z"}
 {"level":"error","message":"\n    One or more properties were incomplete or not valid.\n    List of required properties:\n    * first_name: needs to be a String, received \n    * last_name: needs to be a String, received \n    * email: needs to be a String, received canalsdigital@gmail.com\n    ","timestamp":"2023-12-21T18:16:01.462Z"}
+{"level":"warn","message":"No se encontraron usuarios inactivos","timestamp":"2023-12-26T13:16:26.337Z"}
+{"level":"error","message":"No token found","timestamp":"2023-12-29T22:35:35.064Z"}
