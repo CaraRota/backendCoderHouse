@@ -17,7 +17,7 @@ export const CartProvider = ({ children }) => {
                 if (!token || !user) {
                     return;
                 }
-                const response = await fetch(backendUrl`${backendUrl}/api/carts/${user.cart}`, {
+                const response = await fetch(`${backendUrl}/api/carts/${user.cart}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
