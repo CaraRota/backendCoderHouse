@@ -1,7 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 //User Context
-import { useUser } from '../hooks/UserContext';
+import { useUser } from "../hooks/UserContext";
+
+import { backendUrl } from "../config/env.js";
 
 const CartContext = createContext();
 
@@ -15,11 +17,11 @@ export const CartProvider = ({ children }) => {
                 if (!token || !user) {
                     return;
                 }
-                const response = await fetch(`http://localhost:3000/api/carts/${user.cart}`, {
-                    method: 'GET',
+                const response = await fetch(backendUrl`${backendUrl}/api/carts/${user.cart}`, {
+                    method: "GET",
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
                     },
                 });
                 if (response.ok) {
@@ -38,11 +40,11 @@ export const CartProvider = ({ children }) => {
 
     const getCart = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/carts/${user.cart}`, {
-                method: 'GET',
+            const response = await fetch(`${backendUrl}/api/carts/${user.cart}`, {
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
             });
             if (response.ok) {
@@ -54,15 +56,15 @@ export const CartProvider = ({ children }) => {
         } catch (error) {
             // Handle fetch error
         }
-    }
+    };
 
     const modifyCart = async (modifiedCart) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/carts/${user.cart}`, {
-                method: 'PUT',
+            const response = await fetch(`${backendUrl}/api/carts/${user.cart}`, {
+                method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(modifiedCart),
             });
@@ -80,10 +82,10 @@ export const CartProvider = ({ children }) => {
 
     const emptyCart = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/carts/${user.cart}`, {
-                method: 'DELETE',
+            const response = await fetch(`${backendUrl}/api/carts/${user.cart}`, {
+                method: "DELETE",
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
@@ -99,37 +101,43 @@ export const CartProvider = ({ children }) => {
 
     const addProductToCart = async (productId, quantity) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/carts/${user.cart}/product/${productId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({ quantity }),
-            });
+            const response = await fetch(
+                `${backendUrl}/api/carts/${user.cart}/product/${productId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ quantity }),
+                }
+            );
 
             if (response.ok) {
                 const updatedCart = await response.json();
                 setCart(updatedCart.message.products);
                 getCart();
             } else {
-                console.log("ERROR", response)
+                console.log("ERROR", response);
             }
         } catch (error) {
-            console.log("ERROR", error)
+            console.log("ERROR", error);
         }
     };
 
     const modifyProductQty = async (productId, quantity) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/carts/${user.cart}/product/${productId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({ quantity }),
-            });
+            const response = await fetch(
+                `${backendUrl}/api/carts/${user.cart}/product/${productId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ quantity }),
+                }
+            );
 
             if (response.ok) {
                 const updatedCart = await response.json();
@@ -144,12 +152,15 @@ export const CartProvider = ({ children }) => {
 
     const removeProductFromCart = async (productId) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/carts/${user.cart}/product/${productId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
+            const response = await fetch(
+                `${backendUrl}/api/carts/${user.cart}/product/${productId}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
             if (response.ok) {
                 const updatedCart = await response.json();
@@ -164,10 +175,10 @@ export const CartProvider = ({ children }) => {
 
     const checkoutCart = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/carts/${user.cart}/checkout`, {
-                method: 'POST',
+            const response = await fetch(`${backendUrl}/api/carts/${user.cart}/checkout`, {
+                method: "POST",
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
@@ -182,7 +193,10 @@ export const CartProvider = ({ children }) => {
     };
 
     const totalQty = cart.reduce((acc, product) => acc + product.quantity, 0);
-    const totalAmount = cart.reduce((acc, product) => acc + product.quantity * product.id_prod.price, 0);
+    const totalAmount = cart.reduce(
+        (acc, product) => acc + product.quantity * product.id_prod.price,
+        0
+    );
 
     return (
         <CartContext.Provider
@@ -196,8 +210,7 @@ export const CartProvider = ({ children }) => {
                 checkoutCart,
                 totalQty,
                 totalAmount,
-            }}
-        >
+            }}>
             {children}
         </CartContext.Provider>
     );
@@ -206,7 +219,7 @@ export const CartProvider = ({ children }) => {
 export const useCart = () => {
     const context = useContext(CartContext);
     if (!context) {
-        throw new Error('useCart must be used within a CartProvider');
+        throw new Error("useCart must be used within a CartProvider");
     }
     return context;
 };

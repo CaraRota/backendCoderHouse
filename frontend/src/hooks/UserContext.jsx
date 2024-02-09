@@ -1,5 +1,7 @@
 // UserContext.js
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
+
+import { backendUrl } from "../config/env.js";
 
 const UserContext = createContext();
 
@@ -9,15 +11,15 @@ export const UserProvider = ({ children }) => {
     const [token, setToken] = useState(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        const cookieArray = document.cookie.split(';');
-        const tokenRow = cookieArray.find(row => row.startsWith('jwtCookie'));
+        const storedUser = localStorage.getItem("user");
+        const cookieArray = document.cookie.split(";");
+        const tokenRow = cookieArray.find((row) => row.startsWith("jwtCookie"));
         if (!tokenRow) {
             setLoggedIn(false);
             setUser(null);
             return;
         }
-        const token = tokenRow.split('=')[1];
+        const token = tokenRow.split("=")[1];
         if (storedUser) {
             setUser(JSON.parse(storedUser));
             setLoggedIn(true);
@@ -25,56 +27,60 @@ export const UserProvider = ({ children }) => {
         }
     }, []);
 
-
     const login = async (userData) => {
         try {
-            const response = await fetch('http://localhost:3000/api/session/login', {
-                method: 'POST',
+            const response = await fetch(backendUrl + "/api/session/login", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-                credentials: 'include',
+                credentials: "include",
                 body: JSON.stringify(userData),
             });
 
             if (response.ok) {
                 const userResponse = await response.json();
-                localStorage.setItem('user', JSON.stringify(userResponse.payload));
+                localStorage.setItem("user", JSON.stringify(userResponse.payload));
                 setUser(userResponse.payload);
                 setLoggedIn(true);
-                setToken(document.cookie.split(';').find(row => row.startsWith('jwtCookie')).split('=')[1])
+                setToken(
+                    document.cookie
+                        .split(";")
+                        .find((row) => row.startsWith("jwtCookie"))
+                        .split("=")[1]
+                );
             } else {
-                throw new Error('Email or password incorrect');
+                throw new Error("Email or password incorrect");
             }
         } catch (error) {
-            throw new Error('Error during login');
+            throw new Error("Error during login");
         }
     };
 
     const logout = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/session/logout', {
-                method: 'GET',
-                credentials: 'include',
+            const response = await fetch(backendUrl + "/api/session/logout", {
+                method: "GET",
+                credentials: "include",
             });
 
             //Remove jwtCookie
             document.cookie = "jwtCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            const storedUser = localStorage.getItem('user');
+            const storedUser = localStorage.getItem("user");
             if (storedUser) {
-                localStorage.removeItem('user');
+                localStorage.removeItem("user");
             }
 
             if (response.ok) {
-                localStorage.removeItem('user');
+                localStorage.removeItem("user");
                 setUser(null);
                 setLoggedIn(false);
             } else {
-                throw new Error('Error during logout');
+                throw new Error("Error during logout");
             }
         } catch (error) {
-            console.error('Error during logout:', error);
-            throw new Error('Error during logout');
+            console.error("Error during logout:", error);
+            throw new Error("Error during logout");
         }
     };
 
@@ -88,7 +94,7 @@ export const UserProvider = ({ children }) => {
 export const useUser = () => {
     const context = useContext(UserContext);
     if (!context) {
-        throw new Error('useUser must be used within a UserProvider');
+        throw new Error("useUser must be used within a UserProvider");
     }
     return context;
 };
