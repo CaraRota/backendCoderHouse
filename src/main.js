@@ -29,7 +29,11 @@ import logger from "./utils/loggers.js";
 //Middlewares
 app.use(
     cors({
-        origin: ["http://localhost:5173", "https://scamiacommerce2.netlify.app"],
+        origin: [
+            "http://localhost:5173",
+            "https://scamiacommerce2.netlify.app",
+            "https://scamiacommerce2.netlify.app/*",
+        ],
         credentials: true,
     })
 );
